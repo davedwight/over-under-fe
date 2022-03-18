@@ -17,8 +17,6 @@ const style = {
 };
 
 export default function BasicModal(props) {
-
-  console.log("props", props);
     
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,10 +36,10 @@ export default function BasicModal(props) {
             Vote details
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <p>Stock: {props.submission.stock}</p>
-            <p>Current price: {props.submission.price}</p>
-            <p>Vote: {props.submission.vote}</p>
-            <p>Expiration date: {props.submission.exp_time}</p>
+            <p>Stock: {props.response.stock_symbol}</p>
+            <p>Current price: {props.response.current_price}</p>
+            <p>Vote: {props.response.response_value}</p>
+            <p>Expiration date: {props.response.expiration_time}</p>
             <label>
                 Enter email to get notifications for this vote:
                 <input></input>

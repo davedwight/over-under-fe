@@ -132,3 +132,22 @@ input {
     font-family: "Inter", sans-serif;
     padding: 0 10px;
 }
+
+.response-length-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.response-length {
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 19%;
+}
+
+.response-length:focus {
+    color: white;
+    background-color: black;
+}
