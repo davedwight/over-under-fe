@@ -1,13 +1,14 @@
 main {
     height: 100vh;
-    text-align: center;
+    /* text-align: center;
     vertical-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;
-/*     background-color: #BDD2DA; */
+    align-items: center; */
+    /*     background-color: #BDD2DA; */
     padding: 10px;
     font-family: "Inter", sans-serif;
+    padding-bottom: 20px;
 }
 
 p {
@@ -24,14 +25,27 @@ h4 {
 
 main > div {
     width: 90%;
-    height: 80%;
+    height: 100%;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 4px 4px 10px #A9BAC1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid black;
+}
+
+h1 {
+    font-weight: 100;
+    font-size: 3rem;
+    margin-left: 10px;
+    top: 10px;
 }
 
 .wrapper {
@@ -50,13 +64,6 @@ label {
     font-size: 0.9rem;
     font-weight: 600;
     margin-bottom: 5px;
-}
-
-.button-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 button {
@@ -79,8 +86,24 @@ button:hover {
     height: 35px;
     width: 120px;
     margin-left: 5px;
-    font-size: .8rem;
-    background-color: rgb(180, 180, 180, .4);
+    font-size: 0.8rem;
+    background-color: rgb(190, 190, 190);
+    z-index: 99;
+    margin-right: -2px;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.value-button {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .select-button:hover {
@@ -88,14 +111,14 @@ button:hover {
 }
 
 .submit-button {
-    background-color: rgb(180, 180, 180, .4);
+    background-color: rgb(180, 180, 180, 0.4);
 }
 
 .submit-button:hover {
     background-color: rgb(180, 180, 180, 1);
 }
 
-.increase {
+/* .increase {
     background-color: rgb(31, 145, 58, .5);
 }
 
@@ -105,23 +128,20 @@ button:hover {
 
 .decrease {
     background-color: rgb(214, 0, 0, .5);
+    border: 1px solid black;
 }
 
 .decrease:hover {
-    background-color: rgb(214, 0, 0, 1);
-}
+    /* background-color: rgb(214, 0, 0, 1); */
+/* } */
 
-.selected {
-    border: 3px solid blue;
-}
-
-.selected-increase {
-    background-color: rgb(31, 145, 58, 1);
-}
-
-.selected-decrease {
-    background-color: rgb(214, 0, 0, 1);
-}
+/* .selected-increase {
+        background-color: rgb(31, 145, 58, 1);
+    }
+    
+    .selected-decrease {
+        background-color: rgb(214, 0, 0, 1);
+    } */
 
 .warning {
     color: red;
@@ -131,6 +151,10 @@ input {
     height: 30px;
     font-family: "Inter", sans-serif;
     padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    z-index: 99;
+    margin-left: -2px;
 }
 
 .response-length-container {
@@ -145,9 +169,68 @@ input {
     border: 1px solid black;
     border-radius: 5px;
     width: 19%;
+    font-weight: 100;
 }
 
-.response-length:focus {
+.selected {
     color: white;
     background-color: black;
+}
+
+.card {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.number {
+    font-size: 6rem;
+    font-weight: 100;
+    margin-right: 10px;
+}
+
+h3 {
+    font-size: 2rem;
+    font-weight: 100;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
+.stock-input-wrapper {
+    position: relative;
+    z-index: 99;
+}
+
+.stock-box {
+    border: 1px solid black;
+    height: 100px;
+    width: 398px;
+    margin-top: -25px;
+    z-index: 1;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.stock-name-display {
+    font-weight: 100;
+}
+
+.stock-price-display {
+    font-weight: 100;
+    font-size: 2rem;
+}
+
+.or {
+    font-weight: 100;
+    font-size: 1.5rem;
 }

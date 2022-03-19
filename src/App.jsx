@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import moment from "moment";
-import Modal from "./Modal.jsx";
+// import Modal from "./Modal.jsx";
 
 let now = moment().format("YYYY-MM-DDTHH:mm");
+let expiration_time = "";
 
 setInterval(() => {
     now = moment().format("YYYY-MM-DDTHH:mm");
 }, 1000);
 
 const initialResponseData = {
-    user_id: null,
-    phone: null,
+    user_id: 1,
     stock_symbol: "",
     stock_name: "",
     current_price: null,
@@ -37,6 +37,12 @@ function App() {
         ((timeTilExp % (60 * 60 * 24)) % (60 * 60)) / 60
     );
 
+    const formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
+    let currPriceFormatted = formatter.format(response.current_price);
+
     // console.log("now", now);
     // console.log("nowFormat", nowFormat);
     // console.log("timeTilExp", timeTilExp);
@@ -52,10 +58,13 @@ function App() {
                     "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=sandbox_c8ct8raad3i9nv0d14tg"
                 )
                 .then((res) => {
-                    console.log(res.data);
+                    console.log("inside getStocks", res);
                     const stocksArr = [];
                     res.data.map((item) => {
-                        stocksArr.push(item.symbol);
+                        stocksArr.push({
+                            symbol: item.symbol,
+                            name: item.description,
+                        });
                     });
                     setStocks(stocksArr);
                 })
@@ -64,44 +73,50 @@ function App() {
         getStocks();
     }, []);
 
-    const getPrice = (stock) => {
+    const getStockData = (stockSymbol, stockName) => {
         axios
             .get(
-                `https://finnhub.io/api/v1/quote?symbol=${stock}&token=sandbox_c8ct8raad3i9nv0d14tg`
+                `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
             )
             .then((res) => {
+                console.log("inside getStockData", res);
                 setResponse({
                     ...response,
-                    stock_symbol: stock,
+                    stock_symbol: stockSymbol,
+                    stock_name: stockName,
                     current_price: res.data.c,
                 });
             })
             .catch((error) => console.log("error", error));
     };
 
-    const handleChange = (e) => {
+    const handleFormChange = (e) => {
         const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+        const symbol = value.split(" ")[0];
+        setFormValues({ ...formValues, [name]: symbol });
     };
 
     const handleSelect = (e) => {
         e.preventDefault();
-        const stock = formValues.stockSymbol;
+        const stockSymbol = formValues.stockSymbol;
+        console.log("stock list", stocks);
+        const stockObj = stocks.find(
+            (obj) => obj.symbol === formValues.stockSymbol
+        );
+        console.log("stock object", stockObj);
+        const stockName = stockObj.name;
         // setResponse({ ...response, stock_symbol: stock });
-        getPrice(stock);
+        getStockData(stockSymbol, stockName);
     };
 
     const handleVote = (value) => {
-        if (value === "increase") {
-            setResponse({ ...response, response_value: "increase" });
+        if (value === "over") {
+            setResponse({ ...response, response_value: "over" });
         } else {
-            setResponse({ ...response, response_value: "decrease" });
+            setResponse({ ...response, response_value: "under" });
         }
     };
-
-    const handleDateChange = (e) => {
-        setResponse({ ...response, expiration_time: e.target.value });
-    };
+    console.log("response data", response);
 
     const handleLengthClick = (value) => {
         setResponse({ ...response, response_length: value });
@@ -109,48 +124,99 @@ function App() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("response_data", response);
+        expiration_time = moment()
+            .add(response.response_length, "minutes")
+            .format();
+        setResponse({ ...response, expiration_time });
+        console.log("response inside submit", response);
+        axios
+            .post("http://localhost:9000/api/responses", response)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.error("didn't work", err));
+        // axios
+        //     .post("https://localhost:9000/api/responses", response)
+        //     .then((res) => {
+        //         console.log("response from backend", res.data);
+        //     })
+        //     .catch((err) => console.error("darn... nothing: ", err));
     };
 
     return (
         <main>
-            <div>
+            <header>
                 <h1>OVER / UNDER</h1>
+            </header>
+            <div>
                 <div className="wrapper">
-                    <div>
-                        <p>Select stock:</p>
-                        <datalist id="suggestions">
-                            {stocks.map((item, i) => {
-                                return <option key={i}>{item}</option>;
-                            })}
-                        </datalist>
-                        <form onSubmit={handleSelect}>
-                            <input
-                                name="stockSymbol"
-                                value={formValues.stockSymbol}
-                                onChange={handleChange}
-                                autoComplete="on"
-                                list="suggestions"
-                            />
-                            <button className="select-button">Select</button>
-                        </form>
+                    <div className="card">
+                        <h2 className="number">1</h2>
+                        <div className="content">
+                            <h3>CHOOSE A STOCK:</h3>
+                            <div className="stock-input-wrapper">
+                                <datalist id="suggestions">
+                                    {stocks.map((item, i) => {
+                                        return (
+                                            <option
+                                                key={i}
+                                            >{`${item.symbol} (${item.name})`}</option>
+                                        );
+                                    })}
+                                </datalist>
+                                <form onSubmit={handleSelect}>
+                                    <input
+                                        name="stockSymbol"
+                                        value={formValues.stockSymbol}
+                                        onChange={handleFormChange}
+                                        autoComplete="on"
+                                        list="suggestions"
+                                    />
+                                    <button className="select-button">
+                                        Select
+                                    </button>
+                                </form>
+                            </div>
+                            <div className="stock-box">
+                                {response.stock_symbol != "" ? (
+                                    <div className="stock-display-container">
+                                        <p className="stock-name-display">
+                                            {response.stock_name}
+                                        </p>
+                                        <p className="stock-price-display">
+                                            {currPriceFormatted}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
+                            </div>
+                        </div>
                     </div>
-                    {response.stock_symbol != "" ? (
-                        <p>{`Current share price of ${response.stock_symbol}: $${response.current_price}`}</p>
-                    ) : (
-                        ""
-                    )}
-                    <div className="response-length-container">
-                        {responseLengths.map((value) => {
-                            return (
-                                <button
-                                    className="response-length"
-                                    onClick={() => handleLengthClick(value)}
-                                >
-                                    {`${value}min`}
-                                </button>
-                            );
-                        })}
+                    <div className="card">
+                        <h2 className="number">2</h2>
+                        <div className="content">
+                            <h3>CHOOSE A TIME FRAME:</h3>
+                            <div className="response-length-container">
+                                {responseLengths.map((value) => {
+                                    return (
+                                        <button
+                                            onClick={() =>
+                                                handleLengthClick(value)
+                                            }
+                                            className={`response-length ${
+                                                response.response_length ===
+                                                value
+                                                    ? "selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {`${value}min`}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                     {/* <div className="date-container">
                         <label htmlFor="expiration">
@@ -181,31 +247,40 @@ function App() {
                     ) : (
                         ""
                     )} */}
-                    <div className="button-container">
-                        <button
-                            onClick={() => handleVote("increase")}
-                            className={`increase ${
-                                response.response_value === "increase"
-                                    ? "selected selected-increase"
-                                    : ""
-                            }`}
-                        >
-                            Increase
-                        </button>
-                        <button
-                            onClick={() => handleVote("decrease")}
-                            className={`decrease ${
-                                response.response_value === "decrease"
-                                    ? "selected selected-decrease"
-                                    : ""
-                            }`}
-                        >
-                            Decrease
-                        </button>
+                    <div className="card">
+                        <h2 className="number">3</h2>
+                        <div className="content">
+                            <div className="button-container">
+                                <button
+                                    onClick={() => handleVote("over")}
+                                    className={`value-button ${
+                                        response.response_value === "over"
+                                            ? "selected"
+                                            : ""
+                                    }`}
+                                >
+                                    OVER
+                                </button>
+                                <p className="or">OR</p>
+                                <button
+                                    onClick={() => handleVote("under")}
+                                    className={`value-button ${
+                                        response.response_value === "under"
+                                            ? "selected"
+                                            : ""
+                                    }`}
+                                >
+                                    UNDER
+                                </button>
+                            </div>
+                            <button
+                                className="submit-button"
+                                onClick={handleSubmit}
+                            >
+                                SUBMIT
+                            </button>
+                        </div>
                     </div>
-                    <button className="submit-button" onClick={handleSubmit}>
-                        Submit
-                    </button>
                     {/* <Modal response={response} /> */}
                 </div>
             </div>
