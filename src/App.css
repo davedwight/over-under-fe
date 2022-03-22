@@ -75,17 +75,6 @@ form {
     align-items: center;
 }
 
-.select-button {
-    height: 35px;
-    width: 20%;
-    margin-left: 5px;
-    font-size: 0.8rem;
-    background-color: white;
-    border: 1px solid black;
-    z-index: 99;
-    margin-right: -2px;
-}
-
 .button-container {
     width: 100%;
     display: flex;
@@ -100,17 +89,35 @@ form {
     border-radius: 5px;
 }
 
+.select-button {
+    height: 35px;
+    width: 20%;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 99;
+    margin-right: -2px;
+}
+
 .select-button:hover {
     background-color: black;
     color: white;
 }
 
-.submit-button {
-    background-color: rgb(180, 180, 180, 0.4);
+.share-button {
+    width: 400px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
 }
 
 .submit-button:hover {
-    background-color: rgb(180, 180, 180, 1);
+    background-color: black;
+    color: white;
 }
 
 input {
