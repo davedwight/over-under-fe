@@ -1,14 +1,14 @@
-main {
-    height: 100vh;
-    /* text-align: center;
-    vertical-align: center;
+.App {
+    max-height: 100vh;
+}
+
+.lower-wrapper {
+    width: 100%;
+    height: 80vh;
     display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
-    align-items: center; */
-    /*     background-color: #BDD2DA; */
-    padding: 10px;
-    font-family: "Inter", sans-serif;
-    padding-bottom: 20px;
+    align-items: center;
 }
 
 p {
@@ -23,21 +23,11 @@ h4 {
     font-size: 0.9rem;
 }
 
-main > div {
-    width: 90%;
-    height: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 10vh;
     border-bottom: 1px solid black;
 }
 
@@ -45,11 +35,7 @@ h1 {
     font-weight: 100;
     font-size: 3rem;
     margin-left: 10px;
-    top: 10px;
-}
-
-.wrapper {
-    width: 100%;
+    padding-top: 10px;
 }
 
 .date-container {
@@ -82,12 +68,20 @@ button:hover {
     cursor: pointer;
 }
 
+form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .select-button {
     height: 35px;
-    width: 120px;
+    width: 20%;
     margin-left: 5px;
     font-size: 0.8rem;
-    background-color: rgb(190, 190, 190);
+    background-color: white;
+    border: 1px solid black;
     z-index: 99;
     margin-right: -2px;
 }
@@ -107,7 +101,8 @@ button:hover {
 }
 
 .select-button:hover {
-    background-color: rgb(180, 180, 180, 1);
+    background-color: black;
+    color: white;
 }
 
 .submit-button {
@@ -118,35 +113,6 @@ button:hover {
     background-color: rgb(180, 180, 180, 1);
 }
 
-/* .increase {
-    background-color: rgb(31, 145, 58, .5);
-}
-
-.increase:hover {
-    background-color: rgb(31, 145, 58, 1);
-}
-
-.decrease {
-    background-color: rgb(214, 0, 0, .5);
-    border: 1px solid black;
-}
-
-.decrease:hover {
-    /* background-color: rgb(214, 0, 0, 1); */
-/* } */
-
-/* .selected-increase {
-        background-color: rgb(31, 145, 58, 1);
-    }
-    
-    .selected-decrease {
-        background-color: rgb(214, 0, 0, 1);
-    } */
-
-.warning {
-    color: red;
-}
-
 input {
     height: 30px;
     font-family: "Inter", sans-serif;
@@ -155,6 +121,7 @@ input {
     border: 1px solid black;
     z-index: 99;
     margin-left: -2px;
+    width: 60%;
 }
 
 .response-length-container {
@@ -178,11 +145,10 @@ input {
 }
 
 .card {
-    width: 90%;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
 }
 
 .number {
@@ -206,6 +172,7 @@ h3 {
 .stock-input-wrapper {
     position: relative;
     z-index: 99;
+    width: 400px;
 }
 
 .stock-box {
@@ -233,4 +200,56 @@ h3 {
 .or {
     font-weight: 100;
     font-size: 1.5rem;
+}
+
+.share-container {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.share-container p {
+    text-align: left;
+}
+
+.share-button {
+    width: 400px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.share-button button {
+    color: white;
+    background-color: black;
+    width: 400px;
+    height: 40px;
+}
+
+.arrow {
+    width: 15%;
+    height: 100%;
+    background-color: transparent;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.arrow img:hover {
+    cursor: pointer;
+}
+
+.main-spinner {
+    height: 50px;
+}
+
+.small-spinner {
+    height: 50px;
 }
