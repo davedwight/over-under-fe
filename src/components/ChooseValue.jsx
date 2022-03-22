@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import "../App.css";
 import axios from "axios";
 import moment from "moment";
@@ -11,6 +11,22 @@ function ChooseValue(props) {
         setPageIndex,
         pageIndex,
     } = props;
+
+    useEffect(() => {
+        response.expiration_time != ""
+            ? axios
+                  .post(
+                      "https://over-under-vote.herokuapp.com/api/responses",
+                      response
+                  )
+                  .then((res) => {
+                      console.log(res);
+                      setShareLinkParam(res.data.response_id);
+                      setPageIndex(pageIndex + 1);
+                  })
+                  .catch((err) => console.error("didn't work", err))
+            : null;
+    }, [response.expiration_time]);
 
     const handleVote = (value) => {
         if (value === "over") {
@@ -30,14 +46,6 @@ function ChooseValue(props) {
             expiration_time,
         });
         console.log("response before submit", response);
-        axios
-            .post("http://localhost:9000/api/responses", response)
-            .then((res) => {
-                console.log(res);
-                setShareLinkParam(res.data.response_id);
-                setPageIndex(pageIndex + 1);
-            })
-            .catch((err) => console.error("didn't work", err));
     };
 
     return (
