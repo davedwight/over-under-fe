@@ -9,7 +9,7 @@ function Share(props) {
         const shareData = {
             title: `${response.stock_symbol} | ${response.response_value} | ${response.response_length} mins`,
             text: `You've been challenged to over/under. You have ${response.response_length} minutes to respond!`,
-            url: `http://overunder.vercel.app/${shareLinkParam}`,
+            url: `http://over-under.vercel.app/${shareLinkParam}`,
         };
         navigator
             .share(shareData)
@@ -21,7 +21,7 @@ function Share(props) {
 
     const handleClipboardClick = () => {
         navigator.clipboard
-            .writeText(`http://overunder.vercel.app/${shareLinkParam}`)
+            .writeText(`http://over-under.vercel.app/${shareLinkParam}`)
             .then((res) => {
                 console.log(res);
                 setCopied(true);
