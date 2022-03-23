@@ -6,9 +6,13 @@ import Spinner from "../assets/spinner.svg";
 function ChooseStock(props) {
     const { response, setResponse, stocks, setStocks } = props;
 
+    let initialLoading = true;
+    response.stock_symbol != "" ? (initialLoading = false) : null;
+
     const [formValues, setFormValues] = useState({ stockSymbol: "" });
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(initialLoading);
     const [stockLoading, setStockLoading] = useState(false);
+    const [showBox, setShowBox] = useState(false);
 
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -28,7 +32,6 @@ function ChooseStock(props) {
                     "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=sandbox_c8ct8raad3i9nv0d14tg"
                 )
                 .then((res) => {
-                    console.log("inside getStocks", res);
                     const stocksArr = [];
                     res.data.map((item) => {
                         stocksArr.push({
@@ -41,12 +44,18 @@ function ChooseStock(props) {
                 })
                 .catch((error) => console.error("error", error));
         };
-        response.stock_symbol === "" ? getStocks() : setIsLoading(false);
-        setFormValues({ ...formValues, stockSymbol: response.stock_symbol });
+        if (response.stock_symbol === "") {
+            getStocks();
+        } else {
+            setFormValues({
+                ...formValues,
+                stockSymbol: response.stock_symbol,
+            });
+            setShowBox(true);
+        }
     }, []);
 
     const getStockData = (stockSymbol, stockName) => {
-        setStockLoading(true);
         axios
             .get(
                 `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
@@ -71,10 +80,9 @@ function ChooseStock(props) {
 
     const handleRandom = (e) => {
         e.preventDefault();
+        setShowBox(true);
+        setStockLoading(true);
         const rand = Math.floor(Math.random() * stocks.length);
-        console.log("length of array", stocks.length);
-        console.log("random number", rand);
-        console.log("all stocks", stocks);
         const stockObj = stocks[rand];
         getStockData(stockObj.symbol, stockObj.name);
         setFormValues({ ...formValues, stockSymbol: stockObj.symbol });
@@ -82,7 +90,8 @@ function ChooseStock(props) {
 
     const handleSelect = (e) => {
         e.preventDefault();
-        console.log("triggered handleSelect");
+        setShowBox(true);
+        setStockLoading(true);
         const stockSymbol = formValues.stockSymbol;
         const stockObj = stocks.find(
             (obj) => obj.symbol === formValues.stockSymbol
@@ -95,69 +104,86 @@ function ChooseStock(props) {
         <div className="card">
             <h2 className="number">1</h2>
             <div className="content">
-                <h3>CHOOSE A STOCK:</h3>
+                <h3 className="stock-title">CHOOSE A STOCK:</h3>
                 {isLoading ? (
                     <img className="main-spinner" src={Spinner} alt="spinner" />
                 ) : (
-                    <div>
-                        <div className="stock-input-wrapper">
-                            <datalist id="suggestions">
-                                {stocks.map((item, i) => {
-                                    return (
-                                        <option
-                                            key={i}
-                                        >{`${item.symbol} (${item.name})`}</option>
-                                    );
-                                })}
-                            </datalist>
-                            <form>
-                                <input
-                                    type="search"
-                                    results
-                                    name="stockSymbol"
-                                    value={formValues.stockSymbol}
-                                    onChange={handleFormChange}
-                                    autoComplete="on"
-                                    list="suggestions"
-                                />
-                                <button
-                                    onClick={handleRandom}
-                                    className="select-button"
-                                >
-                                    RANDOM
-                                </button>
-                                <button
-                                    onClick={handleSelect}
-                                    className="select-button"
-                                >
-                                    SELECT
-                                </button>
-                            </form>
-                        </div>
-                        {response.stock_symbol != "" ? (
-                            <div className="stock-box">
-                                {stockLoading ? (
-                                    <img
-                                        className="small-spinner"
-                                        src={Spinner}
-                                        alt="spinner"
-                                    />
-                                ) : (
-                                    <div className="stock-display-container">
-                                        <p className="stock-name-display">
-                                            {response.stock_name}
-                                        </p>
-                                        <p className="stock-price-display">
-                                            {currPriceFormatted}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                    <div className="main-spinner"></div>
+                )}
+                <div>
+                    <div
+                        className={
+                            isLoading
+                                ? "stock-input-wrapper hide"
+                                : "stock-input-wrapper"
+                        }
+                    >
+                        <datalist id="suggestions">
+                            {stocks.map((item, i) => {
+                                return (
+                                    <option
+                                        key={i}
+                                    >{`${item.symbol} (${item.name})`}</option>
+                                );
+                            })}
+                        </datalist>
+                        <form>
+                            <input
+                                type="search"
+                                results
+                                name="stockSymbol"
+                                value={formValues.stockSymbol}
+                                onChange={handleFormChange}
+                                autoComplete="on"
+                                list="suggestions"
+                            />
+                            <button
+                                onClick={handleRandom}
+                                className={
+                                    stockLoading
+                                        ? "disabled select-button"
+                                        : "select-button"
+                                }
+                                disabled={stockLoading}
+                            >
+                                RANDOM
+                            </button>
+                            <button
+                                onClick={handleSelect}
+                                className={
+                                    stockLoading ||
+                                    formValues.stockSymbol === ""
+                                        ? "disabled select-button"
+                                        : "select-button"
+                                }
+                                disabled={
+                                    stockLoading ||
+                                    formValues.stockSymbol === ""
+                                }
+                            >
+                                SELECT
+                            </button>
+                        </form>
+                    </div>
+                    <div className={showBox ? "stock-box" : "stock-box hide"}>
+                        {stockLoading ? (
+                            <img
+                                className="small-spinner"
+                                src={Spinner}
+                                alt="spinner"
+                            />
                         ) : (
-                            <div></div>
+                            <div className="stock-display-container">
+                                <p className="stock-name-display">
+                                    {response.stock_name}
+                                </p>
+                                <p className="stock-price-display">
+                                    {currPriceFormatted}
+                                </p>
+                            </div>
                         )}
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );

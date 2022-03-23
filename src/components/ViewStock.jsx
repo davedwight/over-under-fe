@@ -9,13 +9,15 @@ function ViewStock(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true);
+
         const getStockInfo = () => {
             axios
                 .get(
-                    `https://over-under-vote.herokuapp.com/api/responses/${primaryResponseId}`
+                    // `https://over-under-vote.herokuapp.com/api/responses/${primaryResponseId}`
+                    `http://localhost:9000/api/responses/${primaryResponseId}`
                 )
                 .then((res) => {
-                    console.log("inside getStockInfo", res);
                     setResponse({
                         ...response,
                         stock_name: res.data[0].stock_name,
@@ -23,6 +25,7 @@ function ViewStock(props) {
                         current_price: res.data[0].current_price,
                         response_length: res.data[0].response_length,
                         expiration_time: res.data[0].expiration_time,
+                        created_at: res.data[0].created_at,
                         primary_response: primaryResponseId,
                     });
                     setIsLoading(false);

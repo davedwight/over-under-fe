@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useOutletContext } from "react-router-dom";
 import "../App.css";
 
 import BackArrow from "../assets/backArrow.svg";
@@ -9,22 +10,18 @@ import ViewTime from "../components/ViewTime";
 import ChooseValue from "../components/ChooseValue";
 import Share from "../components/Share";
 
-const initialResponseData = {
-    user_id: 2,
-    stock_symbol: "",
-    stock_name: "",
-    current_price: null,
-    response_value: "",
-    response_length: null,
-    expiration_time: "",
-    primary_response: null,
-};
-
 function Secondary() {
+    const [
+        response,
+        setResponse,
+        showCountdown,
+        setShowCountdown,
+        layoutTimes,
+    ] = useOutletContext();
+
     let { primary_response_id } = useParams();
     const intPrimaryResponseId = parseInt(primary_response_id);
 
-    const [response, setResponse] = useState(initialResponseData);
     const [shareLinkParam, setShareLinkParam] = useState(null);
     const [pageIndex, setPageIndex] = useState(0);
 
@@ -42,8 +39,16 @@ function Secondary() {
             setPageIndex={setPageIndex}
             pageIndex={pageIndex}
         />,
-        <Share response={response} shareLinkParam={shareLinkParam} />,
+        <Share
+            response={response}
+            shareLinkParam={shareLinkParam}
+            layoutTimes={layoutTimes}
+        />,
     ];
+
+    useEffect(() => {
+        setShowCountdown(true);
+    }, []);
 
     const handleBack = () => {
         setPageIndex(pageIndex - 1);
@@ -55,7 +60,7 @@ function Secondary() {
 
     return (
         <div className="lower-wrapper">
-            {pageIndex > 0 ? (
+            {pageIndex > 0 && pageIndex < pages.length - 1 ? (
                 <div className="arrow">
                     <img
                         onClick={handleBack}
@@ -69,7 +74,7 @@ function Secondary() {
 
             {pages[pageIndex]}
 
-            {pageIndex < pages.length - 1 ? (
+            {pageIndex === 0 || pageIndex === 1 ? (
                 <div className="arrow">
                     <img
                         onClick={handleForward}

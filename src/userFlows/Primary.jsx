@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import "../App.css";
 
 import BackArrow from "../assets/backArrow.svg";
@@ -8,25 +9,31 @@ import ChooseTime from "../components/ChooseTime";
 import ChooseValue from "../components/ChooseValue";
 import Share from "../components/Share";
 
-const initialResponseData = {
-    user_id: 1,
-    stock_symbol: "",
-    stock_name: "",
-    current_price: null,
-    response_value: "",
-    response_length: null,
-    expiration_time: "",
-};
-
 function Primary() {
-    const [response, setResponse] = useState(initialResponseData);
+    const [
+        response,
+        setResponse,
+        showCountdown,
+        setShowCountdown,
+        layoutTimes,
+    ] = useOutletContext();
     const [stocks, setStocks] = useState([]);
     const [shareLinkParam, setShareLinkParam] = useState(null);
     const [pageIndex, setPageIndex] = useState(0);
 
     const pages = [
-        <ChooseStock response={response} setResponse={setResponse} stocks={stocks} setStocks={setStocks}/>,
-        <ChooseTime response={response} setResponse={setResponse} />,
+        <ChooseStock
+            response={response}
+            setResponse={setResponse}
+            stocks={stocks}
+            setStocks={setStocks}
+        />,
+        <ChooseTime
+            response={response}
+            setResponse={setResponse}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+        />,
         <ChooseValue
             response={response}
             setResponse={setResponse}
@@ -34,7 +41,11 @@ function Primary() {
             setPageIndex={setPageIndex}
             pageIndex={pageIndex}
         />,
-        <Share response={response} shareLinkParam={shareLinkParam} />,
+        <Share
+            response={response}
+            shareLinkParam={shareLinkParam}
+            layoutTimes={layoutTimes}
+        />,
     ];
 
     const handleBack = () => {
@@ -47,7 +58,7 @@ function Primary() {
 
     return (
         <div className="lower-wrapper">
-            {pageIndex > 0 ? (
+            {pageIndex > 0 && pageIndex < pages.length - 1 ? (
                 <div className="arrow">
                     <img
                         onClick={handleBack}
@@ -61,7 +72,7 @@ function Primary() {
 
             {pages[pageIndex]}
 
-            {pageIndex < pages.length - 1 ? (
+            {pageIndex === 0 ? (
                 <div className="arrow">
                     <img
                         onClick={handleForward}

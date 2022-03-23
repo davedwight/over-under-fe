@@ -2,6 +2,13 @@
     max-height: 100vh;
 }
 
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .lower-wrapper {
     width: 100%;
     height: 80vh;
@@ -27,7 +34,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 10vh;
+    margin: 10px 0 0 10px;
     border-bottom: 1px solid black;
 }
 
@@ -35,7 +42,8 @@ h1 {
     font-weight: 100;
     font-size: 3rem;
     margin-left: 10px;
-    padding-top: 10px;
+    height: 100%;
+    /* padding-top: 10px; */
 }
 
 .date-container {
@@ -113,11 +121,9 @@ form {
     color: black;
     background-color: white;
     border: 1px solid black;
-}
-
-.submit-button:hover {
-    background-color: black;
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 input {
@@ -229,7 +235,6 @@ h3 {
     width: 400px;
     height: 40px;
     text-align: center;
-    margin-bottom: 20px;
     color: white;
     background-color: black;
 }
@@ -250,8 +255,53 @@ h3 {
 
 .main-spinner {
     height: 50px;
+    margin-bottom: -50px;
 }
 
 .small-spinner {
     height: 50px;
+}
+
+.disabled {
+    color: lightgray;
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.disabled:hover {
+    color: lightgray;
+    background-color: white;
+    border: 1px solid lightgray;
+    cursor: not-allowed;
+}
+
+.hide {
+    visibility: hidden;
+}
+/* 
+.stock-title {
+    margin-bottom: -10px;
+} */
+
+.countdown-wrapper {
+    width: 70%;
+    margin-top: -300px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-wrapper > h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.copied {
+    margin: 5px;
+}
+
+.no-click:hover {
+    cursor: not-allowed;
 }

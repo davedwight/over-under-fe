@@ -1,14 +1,30 @@
 import React, { useState } from "react";
 import "../App.css";
 
+const emojis = {
+    over: (
+        <span role="img" aria-label="over">
+            📈
+        </span>
+    ),
+    under: (
+        <span role="img" aria-label="under">
+            📉
+        </span>
+    ),
+};
+
 function Share(props) {
-    const { response, shareLinkParam } = props;
+    const { response, shareLinkParam, layoutTimes } = props;
+
     const [copied, setCopied] = useState(false);
 
     const handleClick = () => {
         const shareData = {
-            title: `${response.stock_symbol} | ${response.response_value} | ${response.response_length} mins`,
-            text: `You've been challenged to over/under. You have ${response.response_length} minutes to respond!`,
+            title: `${response.stock_symbol} | ${
+                emojis[response.response_value]
+            } | ${response.response_length} mins`,
+            text: `You've been challenged to over/under. You have ${layoutTimes.expiration_mins} minutes to respond!`,
             url: `http://over-under.vercel.app/${shareLinkParam}`,
         };
         navigator
@@ -37,8 +53,25 @@ function Share(props) {
                 <div className="share-container">
                     <p>STOCK: {response.stock_name}</p>
                     <p>CURRENT_PRICE: {response.current_price}</p>
-                    <p>TIME: {response.response_length}</p>
                     <p>OVER_UNDER: {response.response_value}</p>
+                    {layoutTimes.expiration_secs < 0 ||
+                    layoutTimes.expiration_mins < 0 ? (
+                        <p>TIME_TIL_EXPIRATION: EXPIRED</p>
+                    ) : (
+                        <p>
+                            TIME_TIL_EXPIRATION: {layoutTimes.expiration_mins}m{" "}
+                            {layoutTimes.expiration_secs}s
+                        </p>
+                    )}
+                    {layoutTimes.respond_secs < 0 ||
+                    layoutTimes.respond_mins < 0 ? (
+                        <p>TIME_TO_RESPOND: RESPONSE_CLOSED</p>
+                    ) : (
+                        <p>
+                            TIME_TO_RESPOND: {layoutTimes.respond_mins}m{" "}
+                            {layoutTimes.respond_secs}s
+                        </p>
+                    )}
                 </div>
 
                 {navigator.share ? (
@@ -53,7 +86,7 @@ function Share(props) {
                         SHARE
                     </button>
                 )}
-                {copied ? <h3>COPIED</h3> : <div></div>}
+                <h3 className={copied ? "copied" : "copied hide"}>COPIED</h3>
             </div>
         </div>
     );
