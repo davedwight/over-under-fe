@@ -28,8 +28,8 @@ function ChooseValue(props) {
         setSubmitLoading(true);
         axios
             .post(
-                // "https://over-under-vote.herokuapp.com/api/responses",
-                "http://localhost:9000/api/responses",
+                "https://over-under-vote.herokuapp.com/api/responses",
+                // "http://localhost:9000/api/responses",
                 response
             )
             .then((res) => {
