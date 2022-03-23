@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import "../App.css";
 
 const emojis = {
-    over: (
-        <span role="img" aria-label="over">
-            📈
-        </span>
-    ),
-    under: (
-        <span role="img" aria-label="under">
-            📉
-        </span>
-    ),
+    over: "📈",
+    under: "📉",
 };
 
 function Share(props) {
@@ -21,10 +13,13 @@ function Share(props) {
 
     const handleClick = () => {
         const shareData = {
-            title: `${response.stock_symbol} | ${
+            text: `${response.stock_symbol} | ${
                 emojis[response.response_value]
-            } | ${response.response_length} mins`,
-            text: `You've been challenged to over/under. You have ${layoutTimes.expiration_mins} minutes to respond!`,
+            } | ${
+                response.response_length
+            } mins\nYou've been challenged to over/under.\nYou have ${
+                layoutTimes.expiration_mins
+            } minutes to respond!`,
             url: `http://over-under.vercel.app/${shareLinkParam}`,
         };
         navigator
