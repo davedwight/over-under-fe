@@ -3,11 +3,7 @@ import { useParams } from "react-router";
 import { useOutletContext } from "react-router-dom";
 import "../App.css";
 
-import BackArrow from "../assets/backArrow.svg";
-import ForwardArrow from "../assets/forwardArrow.svg";
-import ViewStock from "../components/ViewStock";
-import ViewTime from "../components/ViewTime";
-import ChooseValue from "../components/ChooseValue";
+import SecondaryVote from "../components/SecondaryVote";
 import Share from "../components/Share";
 
 function Secondary() {
@@ -17,6 +13,8 @@ function Secondary() {
         showCountdown,
         setShowCountdown,
         layoutTimes,
+        voteNotFound,
+        setVoteNotFound,
     ] = useOutletContext();
 
     let { primary_response_id } = useParams();
@@ -26,18 +24,15 @@ function Secondary() {
     const [pageIndex, setPageIndex] = useState(0);
 
     const pages = [
-        <ViewStock
+        <SecondaryVote
             response={response}
             setResponse={setResponse}
             primaryResponseId={intPrimaryResponseId}
-        />,
-        <ViewTime response={response} />,
-        <ChooseValue
-            response={response}
-            setResponse={setResponse}
             setShareLinkParam={setShareLinkParam}
             setPageIndex={setPageIndex}
             pageIndex={pageIndex}
+            layoutTimes={layoutTimes}
+            setVoteNotFound={setVoteNotFound}
         />,
         <Share
             response={response}
@@ -50,43 +45,7 @@ function Secondary() {
         setShowCountdown(true);
     }, []);
 
-    const handleBack = () => {
-        setPageIndex(pageIndex - 1);
-    };
-
-    const handleForward = () => {
-        setPageIndex(pageIndex + 1);
-    };
-
-    return (
-        <div className="lower-wrapper">
-            {pageIndex > 0 && pageIndex < pages.length - 1 ? (
-                <div className="arrow">
-                    <img
-                        onClick={handleBack}
-                        src={BackArrow}
-                        alt="back-arrow"
-                    />
-                </div>
-            ) : (
-                <button className="arrow"></button>
-            )}
-
-            {pages[pageIndex]}
-
-            {pageIndex === 0 || pageIndex === 1 ? (
-                <div className="arrow">
-                    <img
-                        onClick={handleForward}
-                        src={ForwardArrow}
-                        alt="forward-arrow"
-                    />
-                </div>
-            ) : (
-                <button className="arrow"></button>
-            )}
-        </div>
-    );
+    return <div className="lower-wrapper">{pages[pageIndex]}</div>;
 }
 
 export default Secondary;

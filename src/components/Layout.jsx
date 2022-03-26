@@ -34,6 +34,8 @@ function Layout() {
     const [showCountdown, setShowCountdown] = useState(false);
     const [layoutTimes, setLayoutTimes] = useState(initialLayoutTimes);
     const [response, setResponse] = useState(initialResponseData);
+    const [voteNotFound, setVoteNotFound] = useState(false);
+
     let responseExpirationTime = null;
     let voteExpirationTime = null;
 
@@ -66,11 +68,21 @@ function Layout() {
         }
     }, [response]);
 
-    return (
+    return voteNotFound ? (
         <div className="main-wrapper">
             <header>
                 <h1>OVER / UNDER</h1>
             </header>
+            <div className="not-found">
+                <h3>VOTE INFORMATION NOT FOUND</h3>
+            </div>
+        </div>
+    ) : (
+        <div className="main-wrapper">
+            <header>
+                <h1>OVER / UNDER</h1>
+            </header>
+
             <div className="countdown-wrapper">
                 {layoutTimes.respond_mins < 0 ||
                 layoutTimes.respond_secs < 0 ? (
@@ -119,6 +131,8 @@ function Layout() {
                     showCountdown,
                     setShowCountdown,
                     layoutTimes,
+                    voteNotFound,
+                    setVoteNotFound,
                 ]}
             />
         </div>

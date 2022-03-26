@@ -32,7 +32,15 @@ function Share(props) {
 
     const handleClipboardClick = () => {
         navigator.clipboard
-            .writeText(`http://over-under.vercel.app/${shareLinkParam}`)
+            .writeText(
+                `${response.stock_symbol} | ${
+                    emojis[response.response_value]
+                } | ${
+                    response.response_length
+                } mins\nYou've been challenged to over/under.\nYou have ${
+                    layoutTimes.expiration_mins
+                } minutes to respond!\nhttp://over-under.vercel.app/${shareLinkParam}`
+            )
             .then((res) => {
                 console.log(res);
                 setCopied(true);
@@ -42,7 +50,6 @@ function Share(props) {
 
     return (
         <div className="card">
-            <h2 className="number">4</h2>
             <div className="content">
                 <h3>SHARE WITH A FRIEND:</h3>
                 <div className="share-container">

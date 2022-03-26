@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import axios from "axios";
 import Spinner from "../assets/spinner.svg";
@@ -15,7 +15,14 @@ function ChooseValue(props) {
 
     const [submitLoading, setSubmitLoading] = useState(false);
 
+    useEffect(() => {
+        if (response.response_value) {
+            handleSubmit();
+        }
+    }, [response.response_value]);
+
     const handleVote = (value) => {
+        setSubmitLoading(true);
         if (value === "over") {
             setResponse({ ...response, response_value: "over" });
         } else {
@@ -23,13 +30,12 @@ function ChooseValue(props) {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSubmitLoading(true);
+    const handleSubmit = () => {
+        console.log("response before submitting", response);
         axios
             .post(
-                "https://over-under-vote.herokuapp.com/api/responses",
-                // "http://localhost:9000/api/responses",
+                // "https://over-under-vote.herokuapp.com/api/responses",
+                "http://localhost:9000/api/responses",
                 response
             )
             .then((res) => {
@@ -51,13 +57,7 @@ function ChooseValue(props) {
     };
 
     let disable = true;
-    if (
-        !(
-            response.stock_name === "" ||
-            !response.response_length ||
-            response.response_value === ""
-        )
-    ) {
+    if (!(response.stock_name === "" || !response.response_length)) {
         disable = false;
     }
     return (
@@ -66,42 +66,41 @@ function ChooseValue(props) {
             <div className="content">
                 <div className="button-container">
                     <button
+                        disabled={disable}
                         onClick={() => handleVote("over")}
-                        className={`value-button ${
-                            response.response_value === "over" ? "selected" : ""
-                        }`}
+                        className={
+                            disable ? "disabled value-button" : "value-button"
+                        }
                     >
-                        OVER
+                        {submitLoading ? (
+                            <img
+                                src={Spinner}
+                                alt="spinner"
+                                className="small-spinner"
+                            />
+                        ) : (
+                            "OVER"
+                        )}
                     </button>
                     <p className="or">OR</p>
                     <button
+                        disabled={disable}
                         onClick={() => handleVote("under")}
-                        className={`value-button ${
-                            response.response_value === "under"
-                                ? "selected"
-                                : ""
-                        }`}
+                        className={
+                            disable ? "disabled value-button" : "value-button"
+                        }
                     >
-                        UNDER
+                        {submitLoading ? (
+                            <img
+                                src={Spinner}
+                                alt="spinner"
+                                className="small-spinner"
+                            />
+                        ) : (
+                            "UNDER"
+                        )}
                     </button>
                 </div>
-                <button
-                    className={
-                        disable ? "disabled submit-button" : "submit-button"
-                    }
-                    onClick={handleSubmit}
-                    disabled={disable}
-                >
-                    {submitLoading ? (
-                        <img
-                            src={Spinner}
-                            alt="spinner"
-                            className="small-spinner"
-                        />
-                    ) : (
-                        "SUBMIT"
-                    )}
-                </button>
             </div>
         </div>
     );

@@ -16,6 +16,8 @@ function Primary() {
         showCountdown,
         setShowCountdown,
         layoutTimes,
+        voteNotFound,
+        setVoteNotFound,
     ] = useOutletContext();
     const [stocks, setStocks] = useState([]);
     const [shareLinkParam, setShareLinkParam] = useState(null);
@@ -27,6 +29,8 @@ function Primary() {
             setResponse={setResponse}
             stocks={stocks}
             setStocks={setStocks}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
         />,
         <ChooseTime
             response={response}
@@ -72,7 +76,7 @@ function Primary() {
 
             {pages[pageIndex]}
 
-            {pageIndex === 0 ? (
+            {pageIndex === -1 ? (
                 <div className="arrow">
                     <img
                         onClick={handleForward}

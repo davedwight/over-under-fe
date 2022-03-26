@@ -1,8 +1,9 @@
 .App {
-    max-height: 100vh;
+    height: 100vh;
 }
 
 .main-wrapper {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,7 +64,6 @@ label {
 button {
     margin: 5px auto;
     width: 50%;
-    max-width: 300px;
     height: 40px;
     border-radius: 5px;
     border: none;
@@ -95,12 +95,14 @@ form {
     color: black;
     border: 1px solid black;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .select-button {
     height: 35px;
-    width: 20%;
-    margin-left: 5px;
+    width: 100%;
     font-size: 0.8rem;
     background-color: white;
     border: 1px solid black;
@@ -109,6 +111,22 @@ form {
 }
 
 .select-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.random-button {
+    height: 35px;
+    width: 40%;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 99;
+    margin-right: -2px;
+}
+
+.random-button:hover {
     background-color: black;
     color: white;
 }
@@ -134,7 +152,7 @@ input {
     border: 1px solid black;
     z-index: 99;
     margin-left: -2px;
-    width: 60%;
+    width: 100%;
 }
 
 .response-length-container {
@@ -186,6 +204,9 @@ h3 {
     position: relative;
     z-index: 99;
     width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .stock-box {
@@ -262,19 +283,6 @@ h3 {
     height: 50px;
 }
 
-.disabled {
-    color: lightgray;
-    background-color: white;
-    border: 1px solid lightgray;
-}
-
-.disabled:hover {
-    color: lightgray;
-    background-color: white;
-    border: 1px solid lightgray;
-    cursor: not-allowed;
-}
-
 .hide {
     visibility: hidden;
 }
@@ -304,4 +312,63 @@ h3 {
 
 .no-click:hover {
     cursor: not-allowed;
+}
+
+.expired {
+    opacity: 0.3;
+}
+
+.value-display {
+    border: 1px solid black;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    margin-top: 5px;
+    width: 95%;
+    padding: 2%;
+    text-align: center;
+}
+
+.secondary-vote {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.secondary-value-button {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: -15px;
+}
+
+.secondary-value-button:hover {
+    color: white;
+    background-color: black;
+}
+
+.disabled {
+    color: lightgray;
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.disabled:hover {
+    color: lightgray;
+    background-color: white;
+    border: 1px solid lightgray;
+    cursor: not-allowed;
+}
+
+.not-found {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

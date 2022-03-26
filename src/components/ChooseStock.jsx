@@ -4,7 +4,14 @@ import axios from "axios";
 import Spinner from "../assets/spinner.svg";
 
 function ChooseStock(props) {
-    const { response, setResponse, stocks, setStocks } = props;
+    const {
+        response,
+        setResponse,
+        stocks,
+        setStocks,
+        pageIndex,
+        setPageIndex,
+    } = props;
 
     let initialLoading = true;
     response.stock_symbol != "" ? (initialLoading = false) : null;
@@ -13,6 +20,7 @@ function ChooseStock(props) {
     const [isLoading, setIsLoading] = useState(initialLoading);
     const [stockLoading, setStockLoading] = useState(false);
     const [showBox, setShowBox] = useState(false);
+    const [notFound, setNotFound] = useState(false);
 
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -20,10 +28,6 @@ function ChooseStock(props) {
     });
 
     let currPriceFormatted = formatter.format(response.current_price);
-
-    const updateForm = (inputName, inputValue) => {
-        setFormValues({ ...formValues, [inputName]: inputValue });
-    };
 
     useEffect(() => {
         const getStocks = () => {
@@ -44,7 +48,7 @@ function ChooseStock(props) {
                 })
                 .catch((error) => console.error("error", error));
         };
-        if (response.stock_symbol === "") {
+        if (!response.stock_symbol) {
             getStocks();
         } else {
             setFormValues({
@@ -65,9 +69,10 @@ function ChooseStock(props) {
                     ...response,
                     stock_symbol: stockSymbol,
                     stock_name: stockName,
-                    current_price: res.data.c,
+                    current_price: res.data.c.toFixed(2),
                 });
                 setStockLoading(false);
+                setNotFound(false);
             })
             .catch((error) => console.error("error", error));
     };
@@ -76,6 +81,17 @@ function ChooseStock(props) {
         const { name, value } = e.target;
         const symbol = value.split(" ")[0];
         setFormValues({ ...formValues, [name]: symbol });
+    };
+
+    const handleOptionSelect = (e) => {
+        if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
+            setShowBox(true);
+            setStockLoading(true);
+            const stockSymbol = e.target.value.split(" ")[0];
+            const stockObj = stocks.find((obj) => obj.symbol === stockSymbol);
+            const stockName = stockObj.name;
+            getStockData(stockSymbol, stockName);
+        }
     };
 
     const handleRandom = (e) => {
@@ -88,16 +104,24 @@ function ChooseStock(props) {
         setFormValues({ ...formValues, stockSymbol: stockObj.symbol });
     };
 
-    const handleSelect = (e) => {
+    const handleSubmit = (e) => {
+        console.log("response before submit", response);
         e.preventDefault();
         setShowBox(true);
         setStockLoading(true);
-        const stockSymbol = formValues.stockSymbol;
-        const stockObj = stocks.find(
-            (obj) => obj.symbol === formValues.stockSymbol
-        );
-        const stockName = stockObj.name;
-        getStockData(stockSymbol, stockName);
+        const symbolFormatted = formValues.stockSymbol.toUpperCase();
+        const stockObj = stocks.find((obj) => obj.symbol === symbolFormatted);
+        if (!stockObj) {
+            setNotFound(true);
+            setStockLoading(false);
+        } else {
+            const stockName = stockObj.name;
+            getStockData(symbolFormatted, stockName);
+        }
+    };
+
+    const handleSelect = () => {
+        setPageIndex(pageIndex + 1);
     };
 
     return (
@@ -127,43 +151,29 @@ function ChooseStock(props) {
                                 );
                             })}
                         </datalist>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <input
                                 type="search"
                                 results
                                 name="stockSymbol"
                                 value={formValues.stockSymbol}
                                 onChange={handleFormChange}
+                                onInput={handleOptionSelect}
                                 autoComplete="on"
                                 list="suggestions"
                             />
-                            <button
-                                onClick={handleRandom}
-                                className={
-                                    stockLoading
-                                        ? "disabled select-button"
-                                        : "select-button"
-                                }
-                                disabled={stockLoading}
-                            >
-                                RANDOM
-                            </button>
-                            <button
-                                onClick={handleSelect}
-                                className={
-                                    stockLoading ||
-                                    formValues.stockSymbol === ""
-                                        ? "disabled select-button"
-                                        : "select-button"
-                                }
-                                disabled={
-                                    stockLoading ||
-                                    formValues.stockSymbol === ""
-                                }
-                            >
-                                SELECT
-                            </button>
                         </form>
+                        <button
+                            onClick={handleRandom}
+                            className={
+                                stockLoading
+                                    ? "disabled random-button"
+                                    : "random-button"
+                            }
+                            disabled={stockLoading}
+                        >
+                            RANDOM
+                        </button>
                     </div>
                     <div className={showBox ? "stock-box" : "stock-box hide"}>
                         {stockLoading ? (
@@ -172,6 +182,12 @@ function ChooseStock(props) {
                                 src={Spinner}
                                 alt="spinner"
                             />
+                        ) : notFound ? (
+                            <div className="stock-display-container">
+                                <p className="stock-name-display">
+                                    STOCK NOT FOUND
+                                </p>
+                            </div>
                         ) : (
                             <div className="stock-display-container">
                                 <p className="stock-name-display">
@@ -183,6 +199,19 @@ function ChooseStock(props) {
                             </div>
                         )}
                     </div>
+                    <button
+                        onClick={handleSelect}
+                        className={`${
+                            stockLoading || notFound || !response.stock_symbol
+                                ? "disabled select-button"
+                                : "select-button"
+                        } ${showBox ? "" : "hide"}`}
+                        disabled={
+                            stockLoading || notFound || !response.stock_symbol
+                        }
+                    >
+                        SELECT
+                    </button>
                 </div>
             </div>
         </div>

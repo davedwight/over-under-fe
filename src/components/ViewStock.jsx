@@ -14,8 +14,8 @@ function ViewStock(props) {
         const getStockInfo = () => {
             axios
                 .get(
-                    `https://over-under-vote.herokuapp.com/api/responses/${primaryResponseId}`
-                    // `http://localhost:9000/api/responses/${primaryResponseId}`
+                    // `https://over-under-vote.herokuapp.com/api/responses/${primaryResponseId}`
+                    `http://localhost:9000/api/responses/${primaryResponseId}`
                 )
                 .then((res) => {
                     setResponse({
