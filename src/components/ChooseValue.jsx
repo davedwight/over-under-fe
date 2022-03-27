@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import axios from "axios";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 import Spinner from "../assets/spinner.svg";
 import moment from "moment";
 
@@ -32,12 +32,8 @@ function ChooseValue(props) {
 
     const handleSubmit = () => {
         console.log("response before submitting", response);
-        axios
-            .post(
-                // "https://over-under-vote.herokuapp.com/api/responses",
-                "http://localhost:9000/api/responses",
-                response
-            )
+        axiosWithAuth()
+            .post("/responses", response)
             .then((res) => {
                 console.log(res);
                 if (!response.primary_response) {

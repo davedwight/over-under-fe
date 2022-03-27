@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import axios from "axios";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 import moment from "moment";
 import Spinner from "../assets/spinner.svg";
 
@@ -18,7 +18,7 @@ function SecondaryVote(props) {
         setPageIndex,
         pageIndex,
         layoutTimes,
-        setVoteNotFound
+        setVoteNotFound,
     } = props;
 
     const [isLoading, setIsLoading] = useState(true);
@@ -27,13 +27,11 @@ function SecondaryVote(props) {
 
     useEffect(() => {
         setIsLoading(true);
+        const userId = parseInt(localStorage.getItem("user_id"));
 
         const getStockInfo = () => {
-            axios
-                .get(
-                    // `https://over-under-vote.herokuapp.com/api/responses/${primaryResponseId}`
-                    `http://localhost:9000/api/responses/${primaryResponseId}`
-                )
+            axiosWithAuth()
+                .get(`/responses/${primaryResponseId}`)
                 .then((res) => {
                     setResponse({
                         ...response,
@@ -46,6 +44,7 @@ function SecondaryVote(props) {
                             responseOpposites[res.data[0].response_value],
                         created_at: res.data[0].created_at,
                         primary_response: primaryResponseId,
+                        user_id: userId,
                     });
                     setPrimaryResponseValue(res.data[0].response_value);
                     setIsLoading(false);
@@ -65,39 +64,12 @@ function SecondaryVote(props) {
 
     let currPriceFormatted = formatter.format(response.current_price);
 
-    const handleVote = (value) => {
-        setSubmitLoading(true);
-        if (value === "over") {
-            setResponse(
-                { ...response, response_value: "over" },
-                handleSubmit()
-            );
-        } else {
-            setResponse(
-                { ...response, response_value: "under" },
-                handleSubmit()
-            );
-        }
-    };
-
     const handleSubmit = () => {
-        axios
-            .post(
-                // "https://over-under-vote.herokuapp.com/api/responses",
-                "http://localhost:9000/api/responses",
-                response
-            )
+        setSubmitLoading(true);
+        axiosWithAuth()
+            .post("/responses", response)
             .then((res) => {
                 console.log(res);
-                if (!response.primary_response) {
-                    setResponse({
-                        ...response,
-                        created_at: res.data.created_at,
-                        expiration_time: moment(res.data.created_at)
-                            .add(response.response_length, "minutes")
-                            .format(),
-                    });
-                }
                 setShareLinkParam(res.data.response_id);
                 setSubmitLoading(false);
                 setPageIndex(pageIndex + 1);
@@ -151,7 +123,7 @@ function SecondaryVote(props) {
                     {primaryResponseValue === "over" ? (
                         <button
                             disabled={expired}
-                            onClick={() => handleVote("under")}
+                            onClick={handleSubmit}
                             className={`secondary-value-button ${
                                 expired ? "disabled" : ""
                             }`}
@@ -169,7 +141,7 @@ function SecondaryVote(props) {
                     ) : (
                         <button
                             disabled={expired}
-                            onClick={() => handleVote("over")}
+                            onClick={handleSubmit}
                             className={`secondary-value-button ${
                                 expired ? "disabled" : ""
                             }`}

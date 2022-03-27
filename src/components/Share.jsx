@@ -20,7 +20,7 @@ function Share(props) {
             } mins\nYou've been challenged to over/under.\nYou have ${
                 layoutTimes.expiration_mins
             } minutes to respond!`,
-            url: `http://over-under.vercel.app/${shareLinkParam}`,
+            url: `http://over-under.vercel.app/vote/${shareLinkParam}`,
         };
         navigator
             .share(shareData)
@@ -39,7 +39,7 @@ function Share(props) {
                     response.response_length
                 } mins\nYou've been challenged to over/under.\nYou have ${
                     layoutTimes.expiration_mins
-                } minutes to respond!\nhttp://over-under.vercel.app/${shareLinkParam}`
+                } minutes to respond!\nhttp://over-under.vercel.app/vote/${shareLinkParam}`
             )
             .then((res) => {
                 console.log(res);

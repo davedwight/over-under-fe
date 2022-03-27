@@ -346,6 +346,9 @@ h3 {
     border-radius: 5px;
     width: 100%;
     margin-top: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .secondary-value-button:hover {

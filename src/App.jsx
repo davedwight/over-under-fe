@@ -1,5 +1,7 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
+import Login from "./components/Login";
 import Layout from "./components/Layout";
 import Primary from "./userFlows/Primary";
 import Secondary from "./userFlows/Secondary";
@@ -10,9 +12,10 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<Primary />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/vote" element={<Primary />} />
                         <Route
-                            path=":primary_response_id"
+                            path="/vote/:primary_response_id"
                             element={<Secondary />}
                         />
                     </Route>

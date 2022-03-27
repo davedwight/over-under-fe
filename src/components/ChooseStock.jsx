@@ -22,6 +22,8 @@ function ChooseStock(props) {
     const [showBox, setShowBox] = useState(false);
     const [notFound, setNotFound] = useState(false);
 
+    const userId = parseInt(localStorage.getItem("user_id"));
+
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -69,7 +71,8 @@ function ChooseStock(props) {
                     ...response,
                     stock_symbol: stockSymbol,
                     stock_name: stockName,
-                    current_price: res.data.c.toFixed(2),
+                    current_price: parseFloat(res.data.c.toFixed(2)),
+                    user_id: userId,
                 });
                 setStockLoading(false);
                 setNotFound(false);

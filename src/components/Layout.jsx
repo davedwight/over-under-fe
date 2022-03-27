@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
 import moment from "moment";
 import setAllLayoutTimes from "../utils/setAllLayoutTimes";
 
@@ -11,7 +12,7 @@ const initialLayoutTimes = {
 };
 
 const initialResponseData = {
-    user_id: 2,
+    user_id: null,
     stock_symbol: "",
     stock_name: "",
     current_price: null,
@@ -35,9 +36,23 @@ function Layout() {
     const [layoutTimes, setLayoutTimes] = useState(initialLayoutTimes);
     const [response, setResponse] = useState(initialResponseData);
     const [voteNotFound, setVoteNotFound] = useState(false);
+    let navigate = useNavigate();
+    const token = localStorage.getItem("token");
+    let { primary_response_id } = useParams();
+    const intPrimaryResponseId = parseInt(primary_response_id);
 
     let responseExpirationTime = null;
     let voteExpirationTime = null;
+
+    useEffect(() => {
+        if (token && primary_response_id) {
+            navigate(`/vote/${intPrimaryResponseId}`);
+        } else if (token) {
+            navigate("/vote");
+        } else {
+            navigate("/login");
+        }
+    }, []);
 
     useEffect(() => {
         if (response.created_at) {
