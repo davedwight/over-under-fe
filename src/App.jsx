@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { useParams } from "react-router";
-import Login from "./components/Login";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PhoneNumber from "./components/PhoneNumber";
+import Otp2 from "./components/Otp2";
 import Layout from "./components/Layout";
 import Primary from "./userFlows/Primary";
 import Secondary from "./userFlows/Secondary";
@@ -12,7 +12,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route path="/login" element={<Login />} />
+                        <Route path="/login" element={<PhoneNumber />} />
+                        <Route path="/login/:phone_number" element={<Otp2 />} />
                         <Route path="/vote" element={<Primary />} />
                         <Route
                             path="/vote/:primary_response_id"

@@ -61,41 +61,39 @@ function ChooseValue(props) {
             <h2 className="number">3</h2>
             <div className="content">
                 <div className="button-container">
-                    <button
-                        disabled={disable}
-                        onClick={() => handleVote("over")}
-                        className={
-                            disable ? "disabled value-button" : "value-button"
-                        }
-                    >
-                        {submitLoading ? (
-                            <img
-                                src={Spinner}
-                                alt="spinner"
-                                className="small-spinner"
-                            />
-                        ) : (
-                            "OVER"
-                        )}
-                    </button>
-                    <p className="or">OR</p>
-                    <button
-                        disabled={disable}
-                        onClick={() => handleVote("under")}
-                        className={
-                            disable ? "disabled value-button" : "value-button"
-                        }
-                    >
-                        {submitLoading ? (
-                            <img
-                                src={Spinner}
-                                alt="spinner"
-                                className="small-spinner"
-                            />
-                        ) : (
-                            "UNDER"
-                        )}
-                    </button>
+                    {submitLoading ? (
+                        <img
+                            src={Spinner}
+                            alt="spinner"
+                            className="small-spinner"
+                        />
+                    ) : (
+                        <>
+                            <button
+                                disabled={disable}
+                                onClick={() => handleVote("over")}
+                                className={
+                                    disable
+                                        ? "disabled value-button"
+                                        : "value-button"
+                                }
+                            >
+                                OVER
+                            </button>
+                            <p className="or">OR</p>
+                            <button
+                                disabled={disable}
+                                onClick={() => handleVote("under")}
+                                className={
+                                    disable
+                                        ? "disabled value-button"
+                                        : "value-button"
+                                }
+                            >
+                                UNDER
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

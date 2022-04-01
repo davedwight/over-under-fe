@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import moment from "moment";
 import Spinner from "../assets/spinner.svg";
 
 const responseOpposites = {

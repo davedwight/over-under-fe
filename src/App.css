@@ -356,6 +356,57 @@ h3 {
     background-color: black;
 }
 
+.not-found {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.phone-input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.PhoneInputInput {
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    width: 100%;
+    margin-left: 3px;
+    height: 40px;
+}
+
+.phone-button {
+    width: 100%;
+    border: 1px solid black;
+    font-size: 1.2rem;
+    font-weight: 100;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.phone-error {
+    height: 30px;
+    font-weight: 400;
+    color: red;
+}
+
 .disabled {
     color: lightgray;
     background-color: white;
@@ -367,11 +418,4 @@ h3 {
     background-color: white;
     border: 1px solid lightgray;
     cursor: not-allowed;
-}
-
-.not-found {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

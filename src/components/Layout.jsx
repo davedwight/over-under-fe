@@ -11,8 +11,10 @@ const initialLayoutTimes = {
     respond_secs: null,
 };
 
+const user_id = localStorage.getItem("user_id");
+
 const initialResponseData = {
-    user_id: null,
+    user_id: user_id,
     stock_symbol: "",
     stock_name: "",
     current_price: null,
