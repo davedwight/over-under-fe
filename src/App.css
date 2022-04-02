@@ -1,9 +1,11 @@
-.App {
-    height: 100vh;
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #0a0d1e;
 }
 
-.main-wrapper {
-    height: 100%;
+.App {
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +14,6 @@
 
 .lower-wrapper {
     width: 100%;
-    height: 80vh;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
@@ -21,7 +22,7 @@
 
 p {
     font-size: 0.9rem;
-    font-weight: bold;
+    font-weight: 400;
     margin-bottom: 5px;
     max-width: 425px;
     margin: 10px auto;
@@ -34,17 +35,34 @@ h4 {
 header {
     top: 0;
     left: 0;
+    position: fixed;
+    height: 10vh;
     width: 100%;
-    margin: 10px 0 0 10px;
-    border-bottom: 1px solid black;
+    padding: 10px;
+    border-bottom: 1px solid #0a0d1e;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo {
+    min-width: 150px;
+    width: 22%;
+    max-width: 220px;
 }
 
 h1 {
-    font-weight: 100;
+    font-weight: 200;
     font-size: 3rem;
     margin-left: 10px;
     height: 100%;
-    /* padding-top: 10px; */
+}
+
+h3 {
+    font-family: "Bai Jamjuree", sans-serif;
+    margin-bottom: 10px;
+    font-size: 2.4rem;
+    font-weight: 400;
 }
 
 .date-container {
@@ -55,6 +73,12 @@ h1 {
     margin-bottom: 20px;
 }
 
+.stock-title {
+    font-size: 2.4rem;
+    font-family: "Bai Jamjuree", sans-serif;
+    font-weight: 400;
+}
+
 label {
     font-size: 0.9rem;
     font-weight: 600;
@@ -62,14 +86,14 @@ label {
 }
 
 button {
-    margin: 5px auto;
+    margin: 0 auto;
     width: 50%;
     height: 40px;
     border-radius: 5px;
     border: none;
-    font-weight: bold;
+    font-weight: 200;
     font-size: 0.9rem;
-    font-family: "Inter", sans-serif;
+    font-family: "Bai Jamjuree", "Inter", sans-serif;
 }
 
 button:hover {
@@ -92,26 +116,32 @@ form {
 
 .value-button {
     background-color: transparent;
-    color: black;
-    border: 1px solid black;
-    border-radius: 5px;
+    color: #000;
+    border: 1px solid #0a0d1e;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 150px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.select-button {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #0a0d1e;
+    font-weight: 600;
+    font-size: 2.2rem;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.select-button {
-    height: 35px;
-    width: 100%;
-    font-size: 0.8rem;
-    background-color: white;
-    border: 1px solid black;
-    z-index: 99;
-    margin-right: -2px;
-}
-
 .select-button:hover {
-    background-color: black;
+    background-color: #0a0d1e;
     color: white;
 }
 
@@ -119,15 +149,15 @@ form {
     height: 35px;
     width: 40%;
     margin-left: 5px;
-    font-size: 0.8rem;
+    font-size: 1.4rem;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     z-index: 99;
     margin-right: -2px;
 }
 
 .random-button:hover {
-    background-color: black;
+    background-color: #0a0d1e;
     color: white;
 }
 
@@ -136,9 +166,9 @@ form {
     height: 40px;
     text-align: center;
     margin-bottom: 20px;
-    color: black;
+    color: #0a0d1e;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,10 +176,10 @@ form {
 
 input {
     height: 30px;
-    font-family: "Inter", sans-serif;
+    font-family: "Bai Jamjuree", "Inter", sans-serif;
     padding: 0 10px;
     border-radius: 10px;
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     z-index: 99;
     margin-left: -2px;
     width: 100%;
@@ -160,19 +190,22 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .response-length {
     background-color: transparent;
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     border-radius: 5px;
-    width: 19%;
-    font-weight: 100;
+    width: 18%;
+    font-weight: 200;
+    font-size: 1.2rem;
+    height: 35px;
 }
 
 .selected {
     color: white;
-    background-color: black;
+    background-color: #0a0d1e;
 }
 
 .card {
@@ -180,24 +213,21 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
 }
 
 .number {
-    font-size: 6rem;
-    font-weight: 100;
-    margin-right: 10px;
-}
-
-h3 {
-    font-size: 2rem;
-    font-weight: 100;
+    font-family: "Bai Jamjuree", sans-serif;
+    font-size: 10rem;
+    font-weight: 200;
+    margin-right: 30px;
 }
 
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    min-width: 400px;
 }
 
 .stock-input-wrapper {
@@ -210,7 +240,7 @@ h3 {
 }
 
 .stock-box {
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     height: 100px;
     width: 398px;
     margin-top: -25px;
@@ -222,30 +252,35 @@ h3 {
     padding-top: 15px;
 }
 
+.stock-display-container {
+    width: 100%;
+}
+
 .stock-name-display {
-    font-weight: 100;
+    font-weight: 200;
 }
 
 .stock-price-display {
-    font-weight: 100;
-    font-size: 2rem;
-}
-
-.or {
-    font-weight: 100;
+    font-weight: 200;
     font-size: 1.5rem;
 }
 
+.or {
+    font-weight: 200;
+    font-size: 2rem;
+    font-family: "Bai Jamjuree", sans-serif;
+}
+
 .share-container {
-    border: 1px solid black;
+    border: 1px solid #0a0d1e;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 10px;
+    margin: 0 10px;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .share-container p {
@@ -253,18 +288,20 @@ h3 {
 }
 
 .share-button {
-    width: 400px;
-    height: 40px;
+    width: 100%;
     text-align: center;
-    color: white;
-    background-color: black;
+    color: #fff;
+    background-color: #000;
+    font-weight: 800;
+    font-size: 2.5rem;
+    height: 60px;
 }
 
 .arrow {
     width: 15%;
     height: 100%;
     background-color: transparent;
-    color: black;
+    color: #0a0d1e;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -286,14 +323,10 @@ h3 {
 .hide {
     visibility: hidden;
 }
-/* 
-.stock-title {
-    margin-bottom: -10px;
-} */
 
 .countdown-wrapper {
     width: 70%;
-    margin-top: -300px;
+    top: 100px;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -303,11 +336,14 @@ h3 {
 
 .countdown-wrapper > h3 {
     margin: 0;
-    padding: 0;
+    padding: 10px;
+    font-size: 1.5rem;
+    padding: 10px;
 }
 
 .copied {
     margin: 5px;
+    font-size: 1.5rem;
 }
 
 .no-click:hover {
@@ -319,15 +355,16 @@ h3 {
 }
 
 .value-display {
-    border: 1px solid black;
     border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    background-color: black;
+    color: #0a0d1e;
+    background-color: white;
     margin-top: 5px;
-    width: 95%;
-    padding: 2%;
     text-align: center;
+    width: 100%;
+    text-align: center;
+    font-family: "Bai Jamjuree";
+    font-weight: 400;
+    font-size: 2rem;
 }
 
 .secondary-vote {
@@ -340,20 +377,24 @@ h3 {
 }
 
 .secondary-value-button {
-    background-color: transparent;
-    color: black;
-    border: 1px solid black;
+    background-color: #0a0d1e;
+    color: white;
+    border: 1px solid #0a0d1e;
     border-radius: 5px;
     width: 100%;
-    margin-top: -15px;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 50px;
+    font-weight: 800;
+    text-align: center;
+    font-family: "Bai Jamjuree";
+    font-size: 2rem;
 }
 
 .secondary-value-button:hover {
-    color: white;
-    background-color: black;
+    color: #0a0d1e;
+    background-color: white;
 }
 
 .not-found {
@@ -387,9 +428,9 @@ h3 {
 
 .phone-button {
     width: 100%;
-    border: 1px solid black;
-    font-size: 1.2rem;
-    font-weight: 100;
+    border: 1px solid #0a0d1e;
+    font-size: 1.4rem;
+    font-weight: 200;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -397,7 +438,7 @@ h3 {
 }
 
 .phone-button:hover {
-    background-color: black;
+    background-color: #0a0d1e;
     color: white;
 }
 
@@ -418,4 +459,23 @@ h3 {
     background-color: white;
     border: 1px solid lightgray;
     cursor: not-allowed;
+}
+
+table {
+    font-family: "Bai Jamjuree", "sans-serif";
+    width: 90%;
+    margin: 0 auto;
+}
+
+tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2px 0;
+    font-size: 1.1rem;
+    font-weight: 200;
+}
+
+.choose-stock-table {
+    width: 100%;
 }

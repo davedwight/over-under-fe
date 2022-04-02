@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import OtpInput from "react-otp-input";
 import { checkVerification } from "../api/verify";
 import axios from "axios";
-import "../styles/Otp2.css";
+import "../styles/Otp.css";
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
 const initialState = {
@@ -21,7 +21,7 @@ const initialState = {
     errMessage: "",
 };
 
-function Otp2() {
+function Otp() {
     let navigate = useNavigate();
     let { phone_number } = useParams();
     console.log("phone number from useParams", typeof phone_number);
@@ -64,7 +64,7 @@ function Otp2() {
     return (
         <div className="container">
             <div className="view">
-                <div className="card">
+                <div className="otp-card">
                     <form onSubmit={handleSubmit}>
                         <p>Enter verification code</p>
                         <div className="margin-top--small">
@@ -99,4 +99,4 @@ function Otp2() {
     );
 }
 
-export default Otp2;
+export default Otp;

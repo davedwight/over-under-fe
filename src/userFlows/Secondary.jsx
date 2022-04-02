@@ -23,6 +23,8 @@ function Secondary() {
     const [shareLinkParam, setShareLinkParam] = useState(null);
     const [pageIndex, setPageIndex] = useState(0);
 
+    const token = localStorage.getItem("token");
+
     const pages = [
         <SecondaryVote
             response={response}
@@ -42,7 +44,7 @@ function Secondary() {
     ];
 
     useEffect(() => {
-        setShowCountdown(true);
+        token && setShowCountdown(true);
     }, []);
 
     return <div className="lower-wrapper">{pages[pageIndex]}</div>;

@@ -10,6 +10,8 @@ function Share(props) {
     const { response, shareLinkParam, layoutTimes } = props;
 
     const [copied, setCopied] = useState(false);
+    const formatter = new Intl.NumberFormat("de-DE");
+    let currPriceFormatted = formatter.format(response.current_price);
 
     const handleClick = () => {
         const shareData = {
@@ -53,27 +55,44 @@ function Share(props) {
             <div className="content">
                 <h3>SHARE WITH A FRIEND:</h3>
                 <div className="share-container">
-                    <p>STOCK: {response.stock_name}</p>
-                    <p>CURRENT_PRICE: {response.current_price}</p>
-                    <p>OVER_UNDER: {response.response_value}</p>
-                    {layoutTimes.expiration_secs < 0 ||
-                    layoutTimes.expiration_mins < 0 ? (
-                        <p>TIME_TIL_EXPIRATION: EXPIRED</p>
-                    ) : (
-                        <p>
-                            TIME_TIL_EXPIRATION: {layoutTimes.expiration_mins}m{" "}
-                            {layoutTimes.expiration_secs}s
-                        </p>
-                    )}
-                    {layoutTimes.respond_secs < 0 ||
-                    layoutTimes.respond_mins < 0 ? (
-                        <p>TIME_TO_RESPOND: RESPONSE_CLOSED</p>
-                    ) : (
-                        <p>
-                            TIME_TO_RESPOND: {layoutTimes.respond_mins}m{" "}
-                            {layoutTimes.respond_secs}s
-                        </p>
-                    )}
+                    <table>
+                        <tr>
+                            <td>STOCK:</td>
+                            <td>{response.stock_name}</td>
+                        </tr>
+                        <tr>
+                            <td>CURRENT_PRICE:</td>
+                            <td>{currPriceFormatted}$</td>
+                        </tr>
+                        <tr>
+                            <td>OVER_UNDER:</td>
+                            <td>{response.response_value.toUpperCase()}</td>
+                        </tr>
+                        <tr>
+                            <td>TIME_TIL_EXPIRATION:</td>
+                            {layoutTimes.expiration_secs < 0 ||
+                            layoutTimes.expiration_mins < 0 ? (
+                                <td>EXPIRED</td>
+                            ) : (
+                                <td>
+                                    {layoutTimes.expiration_mins}m{" "}
+                                    {layoutTimes.expiration_secs}s
+                                </td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>TIME_TO_RESPOND:</td>
+                            {layoutTimes.respond_secs < 0 ||
+                            layoutTimes.respond_mins < 0 ? (
+                                <td>RESPONSE_CLOSED</td>
+                            ) : (
+                                <td>
+                                    {layoutTimes.respond_mins}m{" "}
+                                    {layoutTimes.respond_secs}s
+                                </td>
+                            )}
+                        </tr>
+                    </table>
                 </div>
 
                 {navigator.share ? (
@@ -88,7 +107,7 @@ function Share(props) {
                         SHARE
                     </button>
                 )}
-                <h3 className={copied ? "copied" : "copied hide"}>COPIED</h3>
+                <h3 className={copied ? "copied" : "copied hide"}>INFO COPIED TO CLIPBOARD</h3>
             </div>
         </div>
     );

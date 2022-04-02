@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import moment from "moment";
 import setAllLayoutTimes from "../utils/setAllLayoutTimes";
+import logo from "../assets/overunderlogolarge.png";
 
 const initialLayoutTimes = {
     expiration_mins: null,
@@ -23,6 +24,7 @@ const initialResponseData = {
     expiration_time: "",
     primary_response: null,
     created_at: "",
+    exchange: "",
 };
 
 const responseTimes = {
@@ -49,9 +51,12 @@ function Layout() {
     useEffect(() => {
         if (token && primary_response_id) {
             navigate(`/vote/${intPrimaryResponseId}`);
+        } else if (token && primary_response_id) {
+            navigate(`/vote/${primary_response_id}`);
         } else if (token) {
             navigate("/vote");
         } else {
+            console.log("here");
             navigate("/login");
         }
     }, []);
@@ -86,18 +91,18 @@ function Layout() {
     }, [response]);
 
     return voteNotFound ? (
-        <div className="main-wrapper">
+        <>
             <header>
-                <h1>OVER / UNDER</h1>
+                <img className="logo" src={logo} alt="logo" />
             </header>
             <div className="not-found">
                 <h3>VOTE INFORMATION NOT FOUND</h3>
             </div>
-        </div>
+        </>
     ) : (
-        <div className="main-wrapper">
+        <>
             <header>
-                <h1>OVER / UNDER</h1>
+                <img className="logo" src={logo} alt="logo" />
             </header>
 
             <div className="countdown-wrapper">
@@ -152,7 +157,7 @@ function Layout() {
                     setVoteNotFound,
                 ]}
             />
-        </div>
+        </>
     );
 }
 

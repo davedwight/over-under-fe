@@ -24,11 +24,7 @@ function ChooseStock(props) {
 
     const userId = parseInt(localStorage.getItem("user_id"));
 
-    const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-    });
-
+    const formatter = new Intl.NumberFormat("de-DE");
     let currPriceFormatted = formatter.format(response.current_price);
 
     useEffect(() => {
@@ -38,6 +34,7 @@ function ChooseStock(props) {
                     "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=sandbox_c8ct8raad3i9nv0d14tg"
                 )
                 .then((res) => {
+                    console.log(res.data);
                     const stocksArr = [];
                     res.data.map((item) => {
                         stocksArr.push({
@@ -62,22 +59,29 @@ function ChooseStock(props) {
     }, []);
 
     const getStockData = (stockSymbol, stockName) => {
-        axios
-            .get(
-                `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
-            )
-            .then((res) => {
+        const getSymbolData = axios.get(
+            `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
+        );
+
+        const getCompanyProfile = axios.get(
+            `https://finnhub.io/api/v1/stock/profile/?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
+        );
+
+        Promise.all([getSymbolData, getCompanyProfile])
+            .then((values) => {
+                console.log("promise.all values", values);
                 setResponse({
                     ...response,
                     stock_symbol: stockSymbol,
                     stock_name: stockName,
-                    current_price: parseFloat(res.data.c.toFixed(2)),
+                    current_price: parseFloat(values[0].data.c.toFixed(2)),
                     user_id: userId,
+                    exchange: values[1].data.exchange,
                 });
                 setStockLoading(false);
                 setNotFound(false);
             })
-            .catch((error) => console.error("error", error));
+            .catch((err) => console.error("error: ", err));
     };
 
     const handleFormChange = (e) => {
@@ -159,7 +163,7 @@ function ChooseStock(props) {
                                 type="search"
                                 results
                                 name="stockSymbol"
-                                value={formValues.stockSymbol}
+                                value={`$${formValues.stockSymbol}`}
                                 onChange={handleFormChange}
                                 onInput={handleOptionSelect}
                                 autoComplete="on"
@@ -193,12 +197,17 @@ function ChooseStock(props) {
                             </div>
                         ) : (
                             <div className="stock-display-container">
-                                <p className="stock-name-display">
-                                    {response.stock_name}
-                                </p>
-                                <p className="stock-price-display">
-                                    {currPriceFormatted}
-                                </p>
+                                <table className="choose-stock-table">
+                                    <tr>
+                                        <td>{response.stock_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{response.stock_symbol}</td>
+                                        <td className="stock-price-display">
+                                            {currPriceFormatted}$
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         )}
                     </div>

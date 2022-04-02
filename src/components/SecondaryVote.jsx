@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import Spinner from "../assets/spinner.svg";
@@ -23,44 +24,46 @@ function SecondaryVote(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [primaryResponseValue, setPrimaryResponseValue] = useState("");
     const [submitLoading, setSubmitLoading] = useState(false);
+    let navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true);
         const userId = parseInt(localStorage.getItem("user_id"));
+        const token = localStorage.getItem("token");
 
-        const getStockInfo = () => {
-            axiosWithAuth()
-                .get(`/responses/${primaryResponseId}`)
-                .then((res) => {
-                    setResponse({
-                        ...response,
-                        stock_name: res.data[0].stock_name,
-                        stock_symbol: res.data[0].stock_symbol,
-                        current_price: res.data[0].current_price,
-                        response_length: res.data[0].response_length,
-                        expiration_time: res.data[0].expiration_time,
-                        response_value:
-                            responseOpposites[res.data[0].response_value],
-                        created_at: res.data[0].created_at,
-                        primary_response: primaryResponseId,
-                        user_id: userId,
+        if (!token) {
+            navigate("/login");
+        } else {
+            const getStockInfo = () => {
+                axiosWithAuth()
+                    .get(`/responses/${primaryResponseId}`)
+                    .then((res) => {
+                        setResponse({
+                            ...response,
+                            stock_name: res.data[0].stock_name,
+                            stock_symbol: res.data[0].stock_symbol,
+                            current_price: res.data[0].current_price,
+                            response_length: res.data[0].response_length,
+                            expiration_time: res.data[0].expiration_time,
+                            response_value:
+                                responseOpposites[res.data[0].response_value],
+                            created_at: res.data[0].created_at,
+                            primary_response: primaryResponseId,
+                            user_id: userId,
+                        });
+                        setPrimaryResponseValue(res.data[0].response_value);
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("error", error);
+                        setVoteNotFound(true);
                     });
-                    setPrimaryResponseValue(res.data[0].response_value);
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.error("error", error);
-                    setVoteNotFound(true);
-                });
-        };
-        !response.stock_symbol ? getStockInfo() : setIsLoading(false);
+            };
+            !response.stock_symbol ? getStockInfo() : setIsLoading(false);
+        }
     }, []);
 
-    const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-    });
-
+    const formatter = new Intl.NumberFormat("de-DE");
     let currPriceFormatted = formatter.format(response.current_price);
 
     const handleSubmit = () => {
@@ -98,12 +101,17 @@ function SecondaryVote(props) {
                             />
                         ) : (
                             <div className="stock-display-container">
-                                <p className="stock-name-display">
-                                    {response.stock_name}
-                                </p>
-                                <p className="stock-price-display">
-                                    {currPriceFormatted}
-                                </p>
+                                <table className="choose-stock-table">
+                                    <tr>
+                                        <td>{response.stock_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{response.stock_symbol}</td>
+                                        <td className="stock-price-display">
+                                            {currPriceFormatted}$
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         )}
                     </div>
