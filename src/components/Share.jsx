@@ -20,7 +20,7 @@ function Share(props) {
             } | ${
                 response.response_length
             } mins\nYou've been challenged to over/under.\nYou have ${
-                layoutTimes.expiration_mins
+                layoutTimes.respond_mins
             } minutes to respond!`,
             url: `http://over-under.vercel.app/vote/${shareLinkParam}`,
         };
@@ -107,7 +107,9 @@ function Share(props) {
                         SHARE
                     </button>
                 )}
-                <h3 className={copied ? "copied" : "copied hide"}>INFO COPIED TO CLIPBOARD</h3>
+                <h3 className={copied ? "copied" : "copied hide"}>
+                    INFO COPIED TO CLIPBOARD
+                </h3>
             </div>
         </div>
     );
