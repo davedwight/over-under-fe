@@ -128,6 +128,11 @@ form {
     font-weight: 800;
 }
 
+.value-button:hover {
+    background-color: #0a0d1e;
+    color: white;
+}
+
 .select-button {
     width: 100%;
     background-color: white;
@@ -201,6 +206,11 @@ input {
     font-weight: 200;
     font-size: 1.2rem;
     height: 35px;
+}
+
+.response-length:hover {
+    background-color: #0a0d1e;
+    color: white;
 }
 
 .selected {

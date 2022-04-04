@@ -23,7 +23,7 @@ const initialState = {
 
 function Otp() {
     let navigate = useNavigate();
-    let { phone_number } = useParams();
+    let { primary_response_id, phone_number } = useParams();
     console.log("phone number from useParams", typeof phone_number);
 
     const [state, setState] = useState(initialState);
@@ -51,7 +51,11 @@ function Otp() {
                             console.log(res);
                             localStorage.setItem("token", res.data.token);
                             localStorage.setItem("user_id", res.data.user_id);
-                            navigate("/vote");
+                            if (primary_response_id) {
+                                navigate(`/vote/${primary_response_id}`);
+                            } else {
+                                navigate("/vote");
+                            }
                         })
                         .catch((err) =>
                             console.error("error adding user", err)

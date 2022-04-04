@@ -32,7 +32,7 @@ function SecondaryVote(props) {
         const token = localStorage.getItem("token");
 
         if (!token) {
-            navigate("/login");
+            navigate(`/login/vote/${primaryResponseId}`);
         } else {
             const getStockInfo = () => {
                 axiosWithAuth()
