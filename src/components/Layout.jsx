@@ -55,8 +55,9 @@ function Layout() {
             navigate(`/vote/${primary_response_id}`);
         } else if (token) {
             navigate("/vote");
+        } else if (!token && primary_response_id) {
+            navigate(`/login/vote/${primary_response_id}`);
         } else {
-            console.log("here");
             navigate("/login");
         }
     }, []);

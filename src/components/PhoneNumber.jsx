@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
 import Spinner from "../assets/spinner.svg";
 
 import { sendSmsVerification } from "../api/verify";
@@ -12,6 +13,7 @@ const PhoneNumber = () => {
     const [loading, setLoading] = useState(false);
     const [disable, setDisable] = useState(true);
     let navigate = useNavigate();
+    let { primary_response_id } = useParams();
 
     const handleChange = (event) => {
         if (event) {
@@ -34,9 +36,13 @@ const PhoneNumber = () => {
             setError("Invalid phone number");
         } else {
             sendSmsVerification(value).then((sent) => {
-                sent.success
-                    ? navigate(`/login/${value}`)
-                    : setError(`Error: ${sent.error}`);
+                if (sent.success && primary_response_id) {
+                    navigate(`/login/vote/${primary_response_id}/${value}`);
+                } else if (sent.success) {
+                    navigate(`/login/${value}`);
+                } else {
+                    setError(`Error: ${sent.error}`);
+                }
                 setLoading(false);
             });
         }
