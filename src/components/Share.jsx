@@ -58,7 +58,7 @@ function Share(props) {
                     <table>
                         <tr>
                             <td>STOCK:</td>
-                            <td>{response.stock_name}</td>
+                            <td className="right">{response.stock_name}</td>
                         </tr>
                         <tr>
                             <td>CURRENT_PRICE:</td>

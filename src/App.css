@@ -1,15 +1,17 @@
-* {
-    max-width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #0a0d1e;
-}
-
 .App {
-    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
+}
+
+.layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 800px;
 }
 
 .lower-wrapper {
@@ -38,7 +40,7 @@ header {
     position: fixed;
     height: 10vh;
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
     border-bottom: 1px solid #0a0d1e;
     display: flex;
     justify-content: flex-start;
@@ -49,6 +51,7 @@ header {
     min-width: 150px;
     width: 22%;
     max-width: 220px;
+    margin-left: 2%;
 }
 
 h1 {
@@ -143,6 +146,7 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
 }
 
 .select-button:hover {
@@ -219,7 +223,7 @@ input {
 }
 
 .card {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -238,6 +242,7 @@ input {
     flex-direction: column;
     align-items: center;
     min-width: 400px;
+    width: 100%;
 }
 
 .stock-input-wrapper {
@@ -253,7 +258,7 @@ input {
     border: 1px solid #0a0d1e;
     height: 100px;
     width: 398px;
-    margin-top: -25px;
+    margin-top: -5px;
     z-index: 1;
     position: relative;
     display: flex;
@@ -314,7 +319,7 @@ input {
     color: #0a0d1e;
     display: flex;
     align-items: center;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 .arrow img:hover {
@@ -347,8 +352,7 @@ input {
 .countdown-wrapper > h3 {
     margin: 0;
     padding: 10px;
-    font-size: 1.5rem;
-    padding: 10px;
+    font-size: 1.3rem;
 }
 
 .copied {
@@ -366,11 +370,12 @@ input {
 
 .value-display {
     border-radius: 5px;
+    border: 1px solid #0a0d1e;
     color: #0a0d1e;
     background-color: white;
     margin-top: 5px;
     text-align: center;
-    width: 100%;
+    width: 398px;
     text-align: center;
     font-family: "Bai Jamjuree";
     font-weight: 400;
@@ -420,7 +425,8 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 30%;
+    width: 100%;
+    max-width: 400px;
 }
 
 .phone-input {
@@ -488,4 +494,82 @@ tr {
 
 .choose-stock-table {
     width: 100%;
+}
+
+.right {
+    text-align: right;
+}
+
+@media only screen and (max-width: 600px) {
+    header {
+        justify-content: center;
+    }
+
+    .number {
+        margin-right: 5px;
+        font-size: 6rem;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+
+    .lower-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    .arrow {
+        width: 50%;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    .response-length-container {
+        flex-wrap: wrap;
+    }
+
+    .response-length {
+        width: 80%;
+        margin: 1px;
+    }
+
+    .countdown-wrapper {
+        width: 95%;
+    }
+
+    .countdown-wrapper > h3 {
+        font-size: 1rem;
+    }
+
+    .layout {
+        width: 95%;
+    }
+
+    .content {
+        min-width: 0;
+    }
+
+    .stock-title {
+        font-size: 1.7rem;
+    }
+
+    .copied {
+        font-size: 1.2rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin-left: 0;
+    }
 }

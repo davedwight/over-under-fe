@@ -6,6 +6,7 @@ import { checkVerification } from "../api/verify";
 import axios from "axios";
 import "../styles/Otp.css";
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
+import Spinner from "../assets/spinner.svg";
 
 const initialState = {
     otp: "",
@@ -24,45 +25,47 @@ const initialState = {
 function Otp() {
     let navigate = useNavigate();
     let { primary_response_id, phone_number } = useParams();
-    console.log("phone number from useParams", typeof phone_number);
 
     const [state, setState] = useState(initialState);
+    const [loading, setLoading] = useState(false);
 
     const handleOtpChange = (otp) => {
         setState({ ...state, otp });
     };
 
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault();
         console.log("phone number", phone_number);
         console.log("state.otp", state.otp);
-        checkVerification(phone_number, parseInt(state.otp)).then(
-            (response) => {
-                if (!response.success) {
-                    setState({
-                        ...state,
-                        hasErrored: true,
-                        errMessage: response.message,
+        checkVerification(phone_number, state.otp).then((response) => {
+            if (!response.success) {
+                setState({
+                    ...state,
+                    hasErrored: true,
+                    errMessage: response.message,
+                });
+                setLoading(false);
+            } else {
+                axios
+                    .post(`${SERVER_BASE_URL}/users`, { phone_number })
+                    .then((res) => {
+                        setLoading(false);
+                        console.log(res);
+                        localStorage.setItem("token", res.data.token);
+                        localStorage.setItem("user_id", res.data.user_id);
+                        if (primary_response_id) {
+                            navigate(`/vote/${primary_response_id}`);
+                        } else {
+                            navigate("/vote");
+                        }
+                    })
+                    .catch((err) => {
+                        setLoading(false);
+                        console.error("error adding user", err);
                     });
-                } else {
-                    axios
-                        .post(`${SERVER_BASE_URL}/users`, { phone_number })
-                        .then((res) => {
-                            console.log(res);
-                            localStorage.setItem("token", res.data.token);
-                            localStorage.setItem("user_id", res.data.user_id);
-                            if (primary_response_id) {
-                                navigate(`/vote/${primary_response_id}`);
-                            } else {
-                                navigate("/vote");
-                            }
-                        })
-                        .catch((err) =>
-                            console.error("error adding user", err)
-                        );
-                }
             }
-        );
+        });
     };
 
     return (
@@ -89,9 +92,19 @@ function Otp() {
                         </div>
                         <button
                             className="btn margin-top--large"
-                            disabled={state.otp.length < state.numInputs}
+                            disabled={
+                                state.otp.length < state.numInputs || loading
+                            }
                         >
-                            SUBMIT
+                            {loading ? (
+                                <img
+                                    className="small-spinner"
+                                    src={Spinner}
+                                    alt="spinner"
+                                />
+                            ) : (
+                                "SUBMIT"
+                            )}
                         </button>
                     </form>
                     <p className={state.hasErrored ? "error" : "error hide"}>

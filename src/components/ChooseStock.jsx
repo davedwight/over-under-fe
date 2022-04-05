@@ -28,6 +28,7 @@ function ChooseStock(props) {
     let currPriceFormatted = formatter.format(response.current_price);
 
     useEffect(() => {
+        console.log("getting stocks");
         const getStocks = () => {
             axios
                 .get(
@@ -45,7 +46,10 @@ function ChooseStock(props) {
                     setStocks(stocksArr);
                     setIsLoading(false);
                 })
-                .catch((error) => console.error("error", error));
+                .catch((error) => {
+                    setIsLoading(false);
+                    console.error("error", error);
+                });
         };
         if (!response.stock_symbol) {
             getStocks();

@@ -1,17 +1,19 @@
-body {
+body,
+html {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Bai Jamjuree", "Inter",
-        "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-        "Droid Sans", "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: "Bai Jamjuree", sans-serif;
+    overflow: hidden;
 }
 
-code {
-    font-family: source-code-pro, "Bai Jamjuree", Roboto, Menlo, Monaco,
-        Consolas, "Courier New", monospace;
+* {
+    box-sizing: inherit;
+    max-width: 100%;
+    /* border: 1px solid #0a0d1e; */
 }
 
-/* * {
-    border: 1px solid black;
-} */
+#root {
+    height: 100%;
+}

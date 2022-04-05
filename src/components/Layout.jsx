@@ -91,21 +91,11 @@ function Layout() {
         }
     }, [response]);
 
-    return voteNotFound ? (
-        <>
+    return (
+        <div className="layout">
             <header>
                 <img className="logo" src={logo} alt="logo" />
             </header>
-            <div className="not-found">
-                <h3>VOTE INFORMATION NOT FOUND</h3>
-            </div>
-        </>
-    ) : (
-        <>
-            <header>
-                <img className="logo" src={logo} alt="logo" />
-            </header>
-
             <div className="countdown-wrapper">
                 {layoutTimes.respond_mins < 0 ||
                 layoutTimes.respond_secs < 0 ? (
@@ -147,18 +137,24 @@ function Layout() {
                     </h3>
                 )}
             </div>
-            <Outlet
-                context={[
-                    response,
-                    setResponse,
-                    showCountdown,
-                    setShowCountdown,
-                    layoutTimes,
-                    voteNotFound,
-                    setVoteNotFound,
-                ]}
-            />
-        </>
+            {voteNotFound ? (
+                <div className="not-found">
+                    <h3>VOTE INFORMATION NOT FOUND</h3>
+                </div>
+            ) : (
+                <Outlet
+                    context={[
+                        response,
+                        setResponse,
+                        showCountdown,
+                        setShowCountdown,
+                        layoutTimes,
+                        voteNotFound,
+                        setVoteNotFound,
+                    ]}
+                />
+            )}
+        </div>
     );
 }
 
