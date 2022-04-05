@@ -162,6 +162,10 @@ form {
     border: 1px solid #0a0d1e;
     z-index: 99;
     margin-right: -2px;
+    color: #0a0d1e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .random-button:hover {
@@ -180,17 +184,6 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-input {
-    height: 30px;
-    font-family: "Bai Jamjuree", "Inter", sans-serif;
-    padding: 0 10px;
-    border-radius: 10px;
-    border: 1px solid #0a0d1e;
-    z-index: 99;
-    margin-left: -2px;
-    width: 100%;
 }
 
 .response-length-container {
@@ -251,6 +244,7 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: -18px;
 }
 
 .stock-box {
@@ -497,6 +491,48 @@ tr {
 
 .right {
     text-align: right;
+}
+
+.input-icon {
+    position: relative;
+    height: 35px;
+    z-index: 99;
+    margin-left: -2px;
+    width: 100%;
+}
+
+.input-icon > input {
+    padding-left: 48px;
+    padding-right: 0;
+    height: 35px;
+    font-family: "Bai Jamjuree", "Inter", sans-serif;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #0a0d1e;
+    font-size: 1.4rem;
+    font-weight: 100;
+}
+
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    font-style: normal;
+    height: 60%;
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+    font-family: "Bai Jamjuree";
+    font-weight: 100;
+    font-size: 1.4rem;
+}
+
+.input-icon > i > span {
+    padding-left: 10px;
 }
 
 @media only screen and (max-width: 600px) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import axios from "axios";
 import Spinner from "../assets/spinner.svg";
+import searchIcon from "../assets/search-icon.svg";
 
 function ChooseStock(props) {
     const {
@@ -39,8 +40,8 @@ function ChooseStock(props) {
                     const stocksArr = [];
                     res.data.map((item) => {
                         stocksArr.push({
-                            symbol: item.symbol,
-                            name: item.description,
+                            stock_symbol: item.symbol,
+                            stock_name: item.description,
                         });
                     });
                     setStocks(stocksArr);
@@ -63,6 +64,7 @@ function ChooseStock(props) {
     }, []);
 
     const getStockData = (stockSymbol, stockName) => {
+        console.log("inside getstockdata");
         const getSymbolData = axios.get(
             `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
         );
@@ -80,7 +82,7 @@ function ChooseStock(props) {
                     stock_name: stockName,
                     current_price: parseFloat(values[0].data.c.toFixed(2)),
                     user_id: userId,
-                    exchange: values[1].data.exchange,
+                    // exchange: values[1].data.exchange,
                 });
                 setStockLoading(false);
                 setNotFound(false);
@@ -95,12 +97,19 @@ function ChooseStock(props) {
     };
 
     const handleOptionSelect = (e) => {
+        console.log("handle option select event", e);
+        const listId = e.target.getAttribute("listId");
+        console.log("listId", listId);
         if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
             setShowBox(true);
             setStockLoading(true);
             const stockSymbol = e.target.value.split(" ")[0];
-            const stockObj = stocks.find((obj) => obj.symbol === stockSymbol);
+            console.log("stock symbol", stockSymbol);
+            const stockObj = stocks.find(
+                (obj) => obj.stock_symbol === stockSymbol
+            );
             const stockName = stockObj.name;
+            console.log("stock name", stockName);
             getStockData(stockSymbol, stockName);
         }
     };
@@ -111,8 +120,8 @@ function ChooseStock(props) {
         setStockLoading(true);
         const rand = Math.floor(Math.random() * stocks.length);
         const stockObj = stocks[rand];
-        getStockData(stockObj.symbol, stockObj.name);
-        setFormValues({ ...formValues, stockSymbol: stockObj.symbol });
+        getStockData(stockObj.stock_symbol, stockObj.stock_name);
+        setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol });
     };
 
     const handleSubmit = (e) => {
@@ -121,17 +130,19 @@ function ChooseStock(props) {
         setShowBox(true);
         setStockLoading(true);
         const symbolFormatted = formValues.stockSymbol.toUpperCase();
-        const stockObj = stocks.find((obj) => obj.symbol === symbolFormatted);
+        const stockObj = stocks.find(
+            (obj) => obj.stock_symbol === symbolFormatted
+        );
         if (!stockObj) {
             setNotFound(true);
             setStockLoading(false);
         } else {
-            const stockName = stockObj.name;
+            const stockName = stockObj.stock_name;
             getStockData(symbolFormatted, stockName);
         }
     };
 
-    const handleSelect = () => {
+    const handleSelectClick = () => {
         setPageIndex(pageIndex + 1);
     };
 
@@ -157,22 +168,34 @@ function ChooseStock(props) {
                             {stocks.map((item, i) => {
                                 return (
                                     <option
+                                        // onSelect={handleOptionSelect}
                                         key={i}
-                                    >{`${item.symbol} (${item.name})`}</option>
+                                        data-list-id={i}
+                                    >{`${item.stock_symbol} (${item.stock_name})`}</option>
                                 );
                             })}
                         </datalist>
                         <form onSubmit={handleSubmit}>
-                            <input
-                                type="search"
-                                results
-                                name="stockSymbol"
-                                value={`$${formValues.stockSymbol}`}
-                                onChange={handleFormChange}
-                                onInput={handleOptionSelect}
-                                autoComplete="on"
-                                list="suggestions"
-                            />
+                            <div class="input-icon">
+                                <input
+                                    type="search"
+                                    results
+                                    name="stockSymbol"
+                                    value={`${formValues.stockSymbol}`}
+                                    onChange={handleFormChange}
+                                    onInput={handleOptionSelect}
+                                    autoComplete="on"
+                                    list="suggestions"
+                                />
+                                <i>
+                                    <img
+                                        className="search-icon"
+                                        src={searchIcon}
+                                        alt="search-icon"
+                                    />
+                                    <span>$</span>
+                                </i>
+                            </div>
                         </form>
                         <button
                             onClick={handleRandom}
@@ -216,7 +239,7 @@ function ChooseStock(props) {
                         )}
                     </div>
                     <button
-                        onClick={handleSelect}
+                        onClick={handleSelectClick}
                         className={`${
                             stockLoading || notFound || !response.stock_symbol
                                 ? "disabled select-button"
