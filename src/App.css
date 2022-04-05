@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 1000px;
+    /* max-width: 1000px; */
 }
 
 .lower-wrapper {
@@ -312,13 +312,13 @@ input {
 }
 
 .arrow {
-    width: 15%;
+    width: 25%;
     height: 100%;
     background-color: transparent;
     color: #0a0d1e;
     display: flex;
     align-items: center;
-    /* padding: 10px; */
+    padding-left: 10px;
 }
 
 .arrow img:hover {
