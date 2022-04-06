@@ -129,10 +129,10 @@ function SecondaryVote(props) {
                     </h3>
                     {primaryResponseValue === "over" ? (
                         <button
-                            disabled={expired}
+                            disabled={expired || submitLoading}
                             onClick={handleSubmit}
                             className={`secondary-value-button ${
-                                expired ? "disabled" : ""
+                                expired || submitLoading ? "disabled" : ""
                             }`}
                         >
                             {submitLoading ? (
@@ -147,10 +147,10 @@ function SecondaryVote(props) {
                         </button>
                     ) : (
                         <button
-                            disabled={expired}
+                            disabled={expired || submitLoading}
                             onClick={handleSubmit}
                             className={`secondary-value-button ${
-                                expired ? "disabled" : ""
+                                expired || submitLoading ? "disabled" : ""
                             }`}
                         >
                             {submitLoading ? (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
 
-const responseLengths = [5, 10, 15, 30, 60];
+const responseLengths = [1, 5, 10, 15, 30, 60];
 
 function ChooseTime(props) {
     const { response, setResponse, pageIndex, setPageIndex } = props;

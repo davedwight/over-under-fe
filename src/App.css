@@ -10,8 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    /* max-width: 1000px; */
+    width: 90%;
 }
 
 .lower-wrapper {
@@ -39,6 +38,7 @@ header {
     left: 0;
     position: fixed;
     height: 10vh;
+    min-height: 80px;
     width: 100%;
     border-bottom: 1px solid #0a0d1e;
     display: flex;
@@ -220,6 +220,7 @@ form {
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    max-width: 600px;
 }
 
 .number {
@@ -389,7 +390,7 @@ form {
     color: white;
     border: 1px solid #0a0d1e;
     border-radius: 5px;
-    width: 100%;
+    width: 398px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -404,6 +405,11 @@ form {
     color: #0a0d1e;
     background-color: white;
 }
+
+/* .secondary-value-button:focus {
+    color: #0a0d1e;
+    background-color: white;
+} */
 
 .not-found {
     height: 100%;
@@ -433,6 +439,8 @@ form {
     width: 100%;
     margin-left: 3px;
     height: 40px;
+    padding-left: 10px;
+    font-family: "Bai Jamjuree", sans-serif;
 }
 
 .phone-button {
@@ -499,11 +507,12 @@ tr {
     z-index: 99;
     margin-left: -2px;
     width: 100%;
+    background: white;
 }
 
 .input-icon > input {
     padding-left: 48px;
-    padding-right: 0;
+    padding-right: 5px;
     height: 35px;
     font-family: "Bai Jamjuree", "Inter", sans-serif;
     width: 100%;
@@ -511,6 +520,8 @@ tr {
     border: 1px solid #0a0d1e;
     font-size: 1.4rem;
     font-weight: 100;
+    color: #0a0d1e;
+    background: white;
 }
 
 .input-icon > i {
@@ -593,7 +604,7 @@ tr {
     }
 
     .stock-title {
-        font-size: 1.7rem;
+        font-size: 2.1rem;
     }
 
     .copied {

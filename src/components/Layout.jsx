@@ -28,6 +28,7 @@ const initialResponseData = {
 };
 
 const responseTimes = {
+    1: 1,
     5: 5,
     10: 5,
     15: 5,
@@ -45,9 +46,6 @@ function Layout() {
     let { primary_response_id } = useParams();
     const intPrimaryResponseId = parseInt(primary_response_id);
 
-    let responseExpirationTime = null;
-    let voteExpirationTime = null;
-
     useEffect(() => {
         if (token && primary_response_id) {
             navigate(`/vote/${intPrimaryResponseId}`);
@@ -64,27 +62,19 @@ function Layout() {
 
     useEffect(() => {
         if (response.created_at) {
-            responseExpirationTime = moment(response.created_at)
-                .add(responseTimes[response.response_length], "minutes")
-                .format();
-
-            voteExpirationTime = moment(response.created_at)
-                .add(response.response_length, "minutes")
-                .format();
-
             setAllLayoutTimes(
                 layoutTimes,
                 setLayoutTimes,
-                responseExpirationTime,
-                voteExpirationTime
+                response,
+                responseTimes
             );
 
             const interval = setInterval(() => {
                 setAllLayoutTimes(
                     layoutTimes,
                     setLayoutTimes,
-                    responseExpirationTime,
-                    voteExpirationTime
+                    response,
+                    responseTimes
                 );
             }, 1000);
             return () => clearInterval(interval);

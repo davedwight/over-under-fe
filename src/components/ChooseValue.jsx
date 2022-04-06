@@ -23,10 +23,25 @@ function ChooseValue(props) {
 
     const handleVote = (value) => {
         setSubmitLoading(true);
+
+        const expTime = moment()
+            .add(response.response_length, "minutes")
+            .toISOString();
+
         if (value === "over") {
-            setResponse({ ...response, response_value: "over" });
+            setResponse({
+                ...response,
+                response_value: "over",
+                expiration_time: expTime,
+                created_at: moment().toISOString(),
+            });
         } else {
-            setResponse({ ...response, response_value: "under" });
+            setResponse({
+                ...response,
+                response_value: "under",
+                expiration_time: expTime,
+                created_at: moment().toISOString(),
+            });
         }
     };
 
@@ -40,9 +55,7 @@ function ChooseValue(props) {
                     setResponse({
                         ...response,
                         created_at: res.data.created_at,
-                        expiration_time: moment(res.data.created_at)
-                            .add(response.response_length, "minutes")
-                            .format(),
+                        expiration_time: res.data.expiration_time,
                     });
                 }
                 setShareLinkParam(res.data.response_id);

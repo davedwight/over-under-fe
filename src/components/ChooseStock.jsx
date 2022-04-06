@@ -87,7 +87,10 @@ function ChooseStock(props) {
                 setStockLoading(false);
                 setNotFound(false);
             })
-            .catch((err) => console.error("error: ", err));
+            .catch((err) => {
+                setStockLoading(false);
+                console.error("error: ", err);
+            });
     };
 
     const handleFormChange = (e) => {
@@ -97,19 +100,15 @@ function ChooseStock(props) {
     };
 
     const handleOptionSelect = (e) => {
-        console.log("handle option select event", e);
         const listId = e.target.getAttribute("listId");
-        console.log("listId", listId);
         if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
             setShowBox(true);
             setStockLoading(true);
             const stockSymbol = e.target.value.split(" ")[0];
-            console.log("stock symbol", stockSymbol);
             const stockObj = stocks.find(
                 (obj) => obj.stock_symbol === stockSymbol
             );
-            const stockName = stockObj.name;
-            console.log("stock name", stockName);
+            const stockName = stockObj.stock_name;
             getStockData(stockSymbol, stockName);
         }
     };
@@ -120,6 +119,7 @@ function ChooseStock(props) {
         setStockLoading(true);
         const rand = Math.floor(Math.random() * stocks.length);
         const stockObj = stocks[rand];
+        console.log("stock object", stockObj);
         getStockData(stockObj.stock_symbol, stockObj.stock_name);
         setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol });
     };
