@@ -168,7 +168,6 @@ function ChooseStock(props) {
                             {stocks.map((item, i) => {
                                 return (
                                     <option
-                                        // onSelect={handleOptionSelect}
                                         key={i}
                                         data-list-id={i}
                                     >{`${item.stock_symbol} (${item.stock_name})`}</option>
@@ -178,7 +177,7 @@ function ChooseStock(props) {
                         <form onSubmit={handleSubmit}>
                             <div class="input-icon">
                                 <input
-                                    type="search"
+                                    // type="search"
                                     results
                                     name="stockSymbol"
                                     value={`${formValues.stockSymbol}`}

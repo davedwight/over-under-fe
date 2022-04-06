@@ -138,6 +138,7 @@ form {
 .select-button {
     width: 100%;
     background-color: white;
+    color: #0a0d1e;
     border: 1px solid #0a0d1e;
     font-weight: 600;
     font-size: 2.2rem;
@@ -202,6 +203,7 @@ form {
     font-weight: 200;
     font-size: 1.2rem;
     height: 35px;
+    margin: 0 2px;
 }
 
 .response-length:hover {
@@ -236,6 +238,10 @@ form {
     align-items: center;
     min-width: 400px;
     width: 100%;
+}
+
+input {
+    color: #0a0d1e;
 }
 
 .stock-input-wrapper {
@@ -441,6 +447,7 @@ form {
     height: 40px;
     padding-left: 10px;
     font-family: "Bai Jamjuree", sans-serif;
+    font-size: 1.2rem;
 }
 
 .phone-button {
@@ -585,6 +592,7 @@ tr {
     .response-length {
         width: 80%;
         margin: 1px;
+        color: #0a0d1e;
     }
 
     .countdown-wrapper {
