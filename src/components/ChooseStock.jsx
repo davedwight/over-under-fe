@@ -29,14 +29,12 @@ function ChooseStock(props) {
     let currPriceFormatted = formatter.format(response.current_price);
 
     useEffect(() => {
-        console.log("getting stocks");
         const getStocks = () => {
             axios
                 .get(
                     "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=sandbox_c8ct8raad3i9nv0d14tg"
                 )
                 .then((res) => {
-                    console.log(res.data);
                     const stocksArr = [];
                     res.data.map((item) => {
                         stocksArr.push({
@@ -64,7 +62,6 @@ function ChooseStock(props) {
     }, []);
 
     const getStockData = (stockSymbol, stockName) => {
-        console.log("inside getstockdata");
         const getSymbolData = axios.get(
             `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=sandbox_c8ct8raad3i9nv0d14tg`
         );
@@ -75,7 +72,6 @@ function ChooseStock(props) {
 
         Promise.all([getSymbolData, getCompanyProfile])
             .then((values) => {
-                console.log("promise.all values", values);
                 setResponse({
                     ...response,
                     stock_symbol: stockSymbol,
@@ -119,13 +115,11 @@ function ChooseStock(props) {
         setStockLoading(true);
         const rand = Math.floor(Math.random() * stocks.length);
         const stockObj = stocks[rand];
-        console.log("stock object", stockObj);
         getStockData(stockObj.stock_symbol, stockObj.stock_name);
         setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol });
     };
 
     const handleSubmit = (e) => {
-        console.log("response before submit", response);
         e.preventDefault();
         setShowBox(true);
         setStockLoading(true);

@@ -71,7 +71,6 @@ function SecondaryVote(props) {
         axiosWithAuth()
             .post("/responses", response)
             .then((res) => {
-                console.log(res);
                 setShareLinkParam(res.data.response_id);
                 setSubmitLoading(false);
                 setPageIndex(pageIndex + 1);

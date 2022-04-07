@@ -44,7 +44,6 @@ function Share(props) {
                 } minutes to respond!\nhttp://over-under.vercel.app/vote/${shareLinkParam}`
             )
             .then((res) => {
-                console.log(res);
                 setCopied(true);
             })
             .catch((err) => console.error);

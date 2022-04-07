@@ -36,8 +36,6 @@ function Otp() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        console.log("phone number", phone_number);
-        console.log("state.otp", state.otp);
         checkVerification(phone_number, state.otp).then((response) => {
             if (!response.success) {
                 setState({
@@ -51,7 +49,6 @@ function Otp() {
                     .post(`${SERVER_BASE_URL}/users`, { phone_number })
                     .then((res) => {
                         setLoading(false);
-                        console.log(res);
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("user_id", res.data.user_id);
                         if (primary_response_id) {

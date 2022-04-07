@@ -437,6 +437,7 @@ input {
 .phone-input {
     width: 100%;
     margin-bottom: 10px;
+    color: #0a0d1e;
 }
 
 .PhoneInputInput {
@@ -448,10 +449,12 @@ input {
     padding-left: 10px;
     font-family: "Bai Jamjuree", sans-serif;
     font-size: 1.2rem;
+    color: #0a0d1e;
 }
 
 .phone-button {
     width: 100%;
+    color: #0a0d1e;
     border: 1px solid #0a0d1e;
     font-size: 1.4rem;
     font-weight: 200;
@@ -515,6 +518,7 @@ tr {
     margin-left: -2px;
     width: 100%;
     background: white;
+    color: #0a0d1e;
 }
 
 .input-icon > input {
@@ -547,10 +551,12 @@ tr {
     font-family: "Bai Jamjuree";
     font-weight: 100;
     font-size: 1.4rem;
+    color: #0a0d1e;
 }
 
 .input-icon > i > span {
     padding-left: 10px;
+    color: #0a0d1e;
 }
 
 @media only screen and (max-width: 600px) {

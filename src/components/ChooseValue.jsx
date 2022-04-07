@@ -46,11 +46,9 @@ function ChooseValue(props) {
     };
 
     const handleSubmit = () => {
-        console.log("response before submitting", response);
         axiosWithAuth()
             .post("/responses", response)
             .then((res) => {
-                console.log(res);
                 if (!response.primary_response) {
                     setResponse({
                         ...response,
