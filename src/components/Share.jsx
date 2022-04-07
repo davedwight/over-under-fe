@@ -19,7 +19,7 @@ function Share(props) {
                 emojis[response.response_value]
             } | ${
                 response.response_length
-            } mins\nYou've been challenged to over/under.\nYou have ${
+            } mins\nYou've been challenged to OVER / UNDER.\nYou have ${
                 layoutTimes.respond_mins
             } minutes to respond!`,
             url: `http://over-under.vercel.app/vote/${shareLinkParam}`,
@@ -39,7 +39,7 @@ function Share(props) {
                     emojis[response.response_value]
                 } | ${
                     response.response_length
-                } mins\nYou've been challenged to over/under.\nYou have ${
+                } mins\nYou've been challenged to OVER / UNDER.\nYou have ${
                     layoutTimes.expiration_mins
                 } minutes to respond!\nhttp://over-under.vercel.app/vote/${shareLinkParam}`
             )
