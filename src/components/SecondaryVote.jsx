@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import Spinner from "../assets/spinner.svg";
+import moment from "moment";
 
 const responseOpposites = {
     over: "under",
@@ -24,6 +25,7 @@ function SecondaryVote(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [primaryResponseValue, setPrimaryResponseValue] = useState("");
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [duplicateResponse, setDuplicateResponse] = useState(false);
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -34,7 +36,21 @@ function SecondaryVote(props) {
         if (!token) {
             navigate(`/login/vote/${primaryResponseId}`);
         } else {
-            const getStockInfo = () => {
+            axiosWithAuth()
+                .get(`/responses/${primaryResponseId}/users`)
+                .then((res) => {
+                    console.log("res after finding users", res);
+                    if (res.data.includes(userId)) {
+                        setDuplicateResponse(true);
+                        setIsLoading(false);
+                    } else {
+                        !response.stock_symbol
+                            ? getResponseInfo()
+                            : setIsLoading(false);
+                    }
+                });
+
+            const getResponseInfo = () => {
                 axiosWithAuth()
                     .get(`/responses/${primaryResponseId}`)
                     .then((res) => {
@@ -42,13 +58,13 @@ function SecondaryVote(props) {
                             ...response,
                             stock_name: res.data[0].stock_name,
                             stock_symbol: res.data[0].stock_symbol,
-                            current_price: res.data[0].current_price,
+                            start_price: res.data[0].start_price,
                             response_length: res.data[0].response_length,
                             expiration_time: res.data[0].expiration_time,
                             response_value:
                                 responseOpposites[res.data[0].response_value],
-                            created_at: res.data[0].created_at,
                             primary_response: primaryResponseId,
+                            primary_response_time: res.data[0].created_at,
                             user_id: userId,
                         });
                         setPrimaryResponseValue(res.data[0].response_value);
@@ -59,17 +75,21 @@ function SecondaryVote(props) {
                         setVoteNotFound(true);
                     });
             };
-            !response.stock_symbol ? getStockInfo() : setIsLoading(false);
         }
     }, []);
 
     const formatter = new Intl.NumberFormat("de-DE");
-    let currPriceFormatted = formatter.format(response.current_price);
+    let startPriceFormatted = formatter.format(response.start_price);
 
     const handleSubmit = () => {
+        const responseToSubmit = {
+            ...response,
+            created_at: moment().toISOString(),
+            updated_at: moment().toISOString(),
+        };
         setSubmitLoading(true);
         axiosWithAuth()
-            .post("/responses", response)
+            .post("/responses", responseToSubmit)
             .then((res) => {
                 setShareLinkParam(res.data.response_id);
                 setSubmitLoading(false);
@@ -86,6 +106,8 @@ function SecondaryVote(props) {
 
     return isLoading ? (
         <img className="small-spinner" src={Spinner} alt="spinner" />
+    ) : duplicateResponse ? (
+        <h3 className="duplicate-message">RESPONSE ALREADY RECORDED</h3>
     ) : (
         <div className={expired ? "expired card" : "card"}>
             <div className="content">
@@ -107,7 +129,7 @@ function SecondaryVote(props) {
                                     <tr>
                                         <td>{response.stock_symbol}</td>
                                         <td className="stock-price-display">
-                                            {currPriceFormatted}$
+                                            {startPriceFormatted}$
                                         </td>
                                     </tr>
                                 </table>

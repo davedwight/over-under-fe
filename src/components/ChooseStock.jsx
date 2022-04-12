@@ -26,7 +26,7 @@ function ChooseStock(props) {
     const userId = parseInt(localStorage.getItem("user_id"));
 
     const formatter = new Intl.NumberFormat("de-DE");
-    let currPriceFormatted = formatter.format(response.current_price);
+    let startPriceFormatted = formatter.format(response.start_price);
 
     useEffect(() => {
         const getStocks = () => {
@@ -76,7 +76,7 @@ function ChooseStock(props) {
                     ...response,
                     stock_symbol: stockSymbol,
                     stock_name: stockName,
-                    current_price: parseFloat(values[0].data.c.toFixed(2)),
+                    start_price: parseFloat(values[0].data.c.toFixed(2)),
                     user_id: userId,
                     // exchange: values[1].data.exchange,
                 });
@@ -224,7 +224,7 @@ function ChooseStock(props) {
                                     <tr>
                                         <td>{response.stock_symbol}</td>
                                         <td className="stock-price-display">
-                                            {currPriceFormatted}$
+                                            {startPriceFormatted}$
                                         </td>
                                     </tr>
                                 </table>

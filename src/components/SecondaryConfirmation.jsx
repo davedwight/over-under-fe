@@ -1,58 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 
-const emojis = {
-    over: "📈",
-    under: "📉",
+const user_id = localStorage.getItem("user_id");
+
+const initialResponseData = {
+    user_id: user_id,
+    stock_symbol: "",
+    stock_name: "",
+    start_price: null,
+    response_value: "",
+    response_length: null,
+    expiration_time: "",
+    primary_response: null,
+    primary_response_time: null,
+    created_at: "",
+    updated_at: "",
+    exchange: "",
 };
 
-function Share(props) {
-    const { response, shareLinkParam, layoutTimes } = props;
+function SecondaryConfirmation(props) {
+    const { response, setResponse, layoutTimes, setShowCountdown } = props;
+    let navigate = useNavigate();
 
-    const [copied, setCopied] = useState(false);
     const formatter = new Intl.NumberFormat("de-DE");
     let startPriceFormatted = formatter.format(response.start_price);
 
     const handleClick = () => {
-        const shareData = {
-            text: `${response.stock_symbol} | ${
-                emojis[response.response_value]
-            } | ${
-                response.response_length
-            } mins\nYou've been challenged to OVER / UNDER.\nYou have ${
-                layoutTimes.respond_mins
-            } minutes to respond!`,
-            url: `http://over-under.vercel.app/vote/${shareLinkParam}`,
-        };
-        navigator
-            .share(shareData)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => console.error);
-    };
-
-    const handleClipboardClick = () => {
-        navigator.clipboard
-            .writeText(
-                `${response.stock_symbol} | ${
-                    emojis[response.response_value]
-                } | ${
-                    response.response_length
-                } mins\nYou've been challenged to OVER / UNDER.\nYou have ${
-                    layoutTimes.expiration_mins
-                } minutes to respond!\nhttp://over-under.vercel.app/vote/${shareLinkParam}`
-            )
-            .then((res) => {
-                setCopied(true);
-            })
-            .catch((err) => console.error);
+        setResponse(initialResponseData);
+        setShowCountdown(false);
+        navigate("/vote");
     };
 
     return (
         <div className="card">
             <div className="content">
-                <h3>SHARE WITH A FRIEND:</h3>
                 <div className="share-container">
                     <table>
                         <tr>
@@ -93,25 +75,15 @@ function Share(props) {
                         </tr>
                     </table>
                 </div>
-
-                {navigator.share ? (
-                    <button onClick={handleClick} className="share-button">
-                        SHARE
-                    </button>
-                ) : (
-                    <button
-                        onClick={handleClipboardClick}
-                        className="share-button"
-                    >
-                        SHARE
-                    </button>
-                )}
-                <h3 className={copied ? "copied" : "copied hide"}>
-                    INFO COPIED TO CLIPBOARD
-                </h3>
+                <button
+                    onClick={handleClick}
+                    className="share-button new-bet-button"
+                >
+                    START NEW BET
+                </button>
             </div>
         </div>
     );
 }
 
-export default Share;
+export default SecondaryConfirmation;

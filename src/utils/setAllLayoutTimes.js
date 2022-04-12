@@ -8,7 +8,11 @@ function setAllLayoutTimes(
 ) {
     const now = moment();
 
-    const response_exp_time = moment(response.created_at).add(
+    const startTime = response.primary_response_time
+        ? response.primary_response_time
+        : response.created_at;
+
+    const response_exp_time = moment(startTime).add(
         responseTimes[response.response_length],
         "minutes"
     );

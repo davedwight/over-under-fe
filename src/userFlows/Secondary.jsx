@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import "../App.css";
 
 import SecondaryVote from "../components/SecondaryVote";
-import Share from "../components/Share";
+import SecondaryConfirmation from "../components/SecondaryConfirmation";
 
 function Secondary() {
     const [
@@ -36,10 +36,11 @@ function Secondary() {
             layoutTimes={layoutTimes}
             setVoteNotFound={setVoteNotFound}
         />,
-        <Share
+        <SecondaryConfirmation
             response={response}
-            shareLinkParam={shareLinkParam}
+            setResponse={setResponse}
             layoutTimes={layoutTimes}
+            setShowCountdown={setShowCountdown}
         />,
     ];
 

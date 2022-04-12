@@ -18,12 +18,14 @@ const initialResponseData = {
     user_id: user_id,
     stock_symbol: "",
     stock_name: "",
-    current_price: null,
+    start_price: null,
     response_value: "",
     response_length: null,
     expiration_time: "",
     primary_response: null,
+    primary_response_time: null,
     created_at: "",
+    updated_at: "",
     exchange: "",
 };
 
@@ -61,7 +63,7 @@ function Layout() {
     }, []);
 
     useEffect(() => {
-        if (response.created_at) {
+        if (response.expiration_time) {
             setAllLayoutTimes(
                 layoutTimes,
                 setLayoutTimes,

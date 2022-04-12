@@ -34,6 +34,7 @@ function ChooseValue(props) {
                 response_value: "over",
                 expiration_time: expTime,
                 created_at: moment().toISOString(),
+                updated_at: moment().toISOString(),
             });
         } else {
             setResponse({
@@ -41,6 +42,7 @@ function ChooseValue(props) {
                 response_value: "under",
                 expiration_time: expTime,
                 created_at: moment().toISOString(),
+                updated_at: moment().toISOString(),
             });
         }
     };

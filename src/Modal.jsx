@@ -37,7 +37,7 @@ export default function BasicModal(props) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <p>Stock: {props.response.stock_symbol}</p>
-            <p>Current price: {props.response.current_price}</p>
+            <p>Current price: {props.response.start_price}</p>
             <p>Vote: {props.response.response_value}</p>
             <p>Expiration date: {props.response.expiration_time}</p>
             <label>
