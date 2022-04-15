@@ -35,6 +35,7 @@ function Secondary() {
             pageIndex={pageIndex}
             layoutTimes={layoutTimes}
             setVoteNotFound={setVoteNotFound}
+            setShowCountdown={setShowCountdown}
         />,
         <SecondaryConfirmation
             response={response}

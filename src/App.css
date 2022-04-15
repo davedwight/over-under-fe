@@ -635,6 +635,7 @@ tr {
     align-items: center;
     position: relative;
     width: 90%;
+    max-width: 1000px;
 }
 
 .drawer-title > img {
@@ -656,6 +657,7 @@ tr {
     height: 60%;
     overflow-x: auto;
     overflow-y: auto;
+    max-width: 1000px;
 }
 
 .table-flex {

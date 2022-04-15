@@ -20,6 +20,7 @@ function SecondaryVote(props) {
         pageIndex,
         layoutTimes,
         setVoteNotFound,
+        setShowCountdown,
     } = props;
 
     const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +43,7 @@ function SecondaryVote(props) {
                     console.log("res after finding users", res);
                     if (res.data.includes(userId)) {
                         setDuplicateResponse(true);
+                        setShowCountdown(false);
                         setIsLoading(false);
                     } else {
                         !response.stock_symbol

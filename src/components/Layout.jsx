@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import setAllLayoutTimes from "../utils/setAllLayoutTimes";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialLayoutTimes = {
     expiration_mins: null,
@@ -43,20 +44,46 @@ function Layout() {
     const [voteNotFound, setVoteNotFound] = useState(false);
     let navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
     let { primary_response_id } = useParams();
     const intPrimaryResponseId = parseInt(primary_response_id);
 
     useEffect(() => {
-        if (token && primary_response_id) {
-            navigate(`/vote/${intPrimaryResponseId}`);
-        } else if (token && primary_response_id) {
-            navigate(`/vote/${primary_response_id}`);
-        } else if (token) {
-            navigate("/vote");
-        } else if (!token && primary_response_id) {
-            navigate(`/login/vote/${primary_response_id}`);
-        } else {
+        if ((!token || !userId) && primary_response_id) {
+            localStorage.clear();
+            navigate(`/login/vote/${intPrimaryResponseId}`);
+        } else if (!token || !userId) {
+            localStorage.clear();
             navigate("/login");
+        } else {
+            axiosWithAuth()
+                .get(`/users/${userId}`)
+                .then((res) => {
+                    if (res.status === 200 && primary_response_id) {
+                        console.log(
+                            `User ${res.data.user_id} successfully verified`
+                        );
+                        navigate(`/vote/${intPrimaryResponseId}`);
+                    } else if (res.status === 200) {
+                        console.log(
+                            `User ${res.data.user_id} successfully verified`
+                        );
+                        navigate("/vote");
+                    } else {
+                        console.log(
+                            `Error code: ${res.status} \n
+                            Error message: ${res.data.message}\n
+                            Please login`
+                        );
+                        localStorage.clear();
+                        navigate("/login");
+                    }
+                })
+                .catch((err) => {
+                    console.error("couldn't verify token", err);
+                    localStorage.clear();
+                    navigate("/login");
+                });
         }
     }, []);
 

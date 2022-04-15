@@ -94,7 +94,6 @@ export default function MyBetsDrawer(props) {
         axiosWithAuth()
             .get(`/responses/user/${userId}`)
             .then((res) => {
-                console.log("res after fetching table data", res.data);
                 setTableData(res.data);
                 setLoading(false);
             })
@@ -103,7 +102,6 @@ export default function MyBetsDrawer(props) {
                 console.error("error fetching response data", error);
             });
     };
-    console.log("tableData", tableData);
 
     return (
         <div className="box-container">
