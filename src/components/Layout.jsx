@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
-import moment from "moment";
 import setAllLayoutTimes from "../utils/setAllLayoutTimes";
-import logo from "../assets/overunderlogolarge.png";
 
 const initialLayoutTimes = {
     expiration_mins: null,
@@ -85,9 +83,6 @@ function Layout() {
 
     return (
         <div className="layout">
-            <header>
-                <img className="logo" src={logo} alt="logo" />
-            </header>
             <div className="countdown-wrapper">
                 {layoutTimes.respond_mins < 0 ||
                 layoutTimes.respond_secs < 0 ? (

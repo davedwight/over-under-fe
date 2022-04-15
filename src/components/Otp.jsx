@@ -22,7 +22,8 @@ const initialState = {
     errMessage: "",
 };
 
-function Otp() {
+function Otp(props) {
+    const { setUserIdState } = props;
     let navigate = useNavigate();
     let { primary_response_id, phone_number } = useParams();
 
@@ -51,6 +52,8 @@ function Otp() {
                         setLoading(false);
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("user_id", res.data.user_id);
+                        const userId = localStorage.getItem("user_id");
+                        setUserIdState(userId);
                         if (primary_response_id) {
                             navigate(`/vote/${primary_response_id}`);
                         } else {

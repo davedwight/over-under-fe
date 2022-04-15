@@ -48,6 +48,9 @@ function SecondaryVote(props) {
                             ? getResponseInfo()
                             : setIsLoading(false);
                     }
+                })
+                .catch((error) => {
+                    console.error("error", error);
                 });
 
             const getResponseInfo = () => {

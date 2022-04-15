@@ -42,7 +42,7 @@ header {
     width: 100%;
     border-bottom: 1px solid #0a0d1e;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -563,6 +563,151 @@ tr {
     text-align: center;
 }
 
+.box-container {
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: yellow !important;
+}
+
+.main {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: absolute !important;
+    width: 100% !important;
+}
+
+.app-bar {
+    background-color: white !important;
+    color: black !important;
+    box-shadow: none !important;
+}
+
+.icon-button {
+    width: 50px !important;
+    background: none !important;
+    border-radius: 0 !important;
+    position: absolute !important;
+    margin-right: 10px !important;
+    right: 0 !important;
+    color: black !important;
+}
+.icon-button:hover {
+    color: lightgray !important;
+    background-color: none !important;
+}
+
+.drawer-header {
+    height: 10vh !important;
+    min-height: 80px !important;
+    border-bottom: 1px solid lightgray !important;
+}
+
+.drawer-icon {
+    color: black !important;
+    background: none !important;
+    border-radius: 0 !important;
+    width: 50px !important;
+    position: absolute !important;
+    right: 10px !important;
+}
+
+.drawer-icon:hover {
+    background-color: none !important;
+    color: lightgray !important;
+}
+
+.drawer-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.drawer-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 90%;
+}
+
+.drawer-title > img {
+    width: 20px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    opacity: 0.4;
+}
+
+.drawer-title > img:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.table-container {
+    border: 1px solid black;
+    width: 90%;
+    height: 60%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.table-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bets-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    min-width: 710px;
+}
+
+.bets-table > tr {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 200;
+    margin: 0;
+    border-top: 1px solid #dddddd;
+}
+
+.bets-table > tr > td {
+    padding: 0 5px;
+}
+
+.bets-table > tr > td,
+.bets-table > tr > th {
+    padding: 8px;
+    width: 12.5%;
+    line-height: 1rem;
+}
+
+.bets-table > tr > th {
+    text-align: left;
+}
+
+.td-text {
+    text-align: left;
+}
+
+.td-num {
+    text-align: left;
+}
+
+.date {
+    width: 15%;
+}
+
 @media only screen and (max-width: 600px) {
     header {
         justify-content: center;
@@ -639,5 +784,9 @@ tr {
 
     .new-bet-button {
         font-size: 1.8rem;
+    }
+
+    .drawer-container > div {
+        width: 95%;
     }
 }
