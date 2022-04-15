@@ -14,7 +14,12 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={<MyBetsDrawer userIdState={userIdState} />}
+                    element={
+                        <MyBetsDrawer
+                            setUserIdState={setUserIdState}
+                            userIdState={userIdState}
+                        />
+                    }
                 >
                     <Route path="/login" element={<PhoneNumber />} />
                     <Route

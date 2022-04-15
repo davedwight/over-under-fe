@@ -13,6 +13,7 @@ import Layout from "./Layout.jsx";
 import refreshIcon from "../assets/refreshIcon.svg";
 import Spinner from "../assets/spinner.svg";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import moment from "moment";
 
 const drawerWidth = "100%";
 
@@ -62,7 +63,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function MyBetsDrawer(props) {
-    const { userIdState } = props;
+    const { userIdState, setUserIdState } = props;
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -78,6 +79,7 @@ export default function MyBetsDrawer(props) {
     }, [userIdState]);
 
     const handleDrawerOpen = () => {
+        getResponseData();
         setOpen(true);
     };
 
@@ -128,7 +130,7 @@ export default function MyBetsDrawer(props) {
                 </Toolbar>
             </AppBar>
             <Main className="main" open={open}>
-                <Layout />
+                <Layout setUserIdState={setUserIdState} />
             </Main>
             <Drawer
                 sx={{
@@ -189,6 +191,9 @@ export default function MyBetsDrawer(props) {
                                     <th>RESULT</th>
                                 </tr>
                                 {tableData.map((row) => {
+                                    const formattedDate = moment(
+                                        row.expiration_time
+                                    ).format("DD MMM YYYY, h:mm a");
                                     return (
                                         <tr>
                                             <td className="td-text">
@@ -207,7 +212,7 @@ export default function MyBetsDrawer(props) {
                                                 {row.response_value}
                                             </td>
                                             <td className="td-num date">
-                                                {row.expiration_time}
+                                                {formattedDate}
                                             </td>
                                             <td className="td-text">
                                                 {row.opponent}

@@ -37,7 +37,8 @@ const responseTimes = {
     60: 15,
 };
 
-function Layout() {
+function Layout(props) {
+    const { setUserIdState } = props;
     const [showCountdown, setShowCountdown] = useState(false);
     const [layoutTimes, setLayoutTimes] = useState(initialLayoutTimes);
     const [response, setResponse] = useState(initialResponseData);
@@ -51,9 +52,11 @@ function Layout() {
     useEffect(() => {
         if ((!token || !userId) && primary_response_id) {
             localStorage.clear();
+            setUserIdState(null);
             navigate(`/login/vote/${intPrimaryResponseId}`);
         } else if (!token || !userId) {
             localStorage.clear();
+            setUserIdState(null);
             navigate("/login");
         } else {
             axiosWithAuth()
@@ -76,6 +79,7 @@ function Layout() {
                             Please login`
                         );
                         localStorage.clear();
+                        setUserIdState(null);
                         navigate("/login");
                     }
                 })
