@@ -22,6 +22,7 @@ function ChooseStock(props) {
     const [stockLoading, setStockLoading] = useState(false);
     const [showBox, setShowBox] = useState(false);
     const [notFound, setNotFound] = useState(false);
+    const [searchStocks, setSearchStocks] = useState([]);
 
     const userId = parseInt(localStorage.getItem("user_id"));
 
@@ -40,27 +41,15 @@ function ChooseStock(props) {
                 .then((res) => {
                     const stocksArr = [];
                     const stockTypes = [];
-                    const acceptedStockTypes = ["Common Stock", "PUBLIC"];
                     res.data.map((item) => {
                         if (!stockTypes.includes(item.type)) {
                             stockTypes.push(item.type);
                         }
-                        if (acceptedStockTypes.includes(item.type)) {
-                            stocksArr.push({
-                                stock_symbol: item.symbol,
-                                stock_name: item.description,
-                            });
-                        }
+                        stocksArr.push({
+                            stock_symbol: item.symbol,
+                            stock_name: item.description,
+                        });
                     });
-                    console.log("stock types", stockTypes);
-                    console.log(stocksArr);
-                    console.log("stocksArr length", stocksArr.length);
-                    // const stocksSample = [
-                    //     stocksArr[0],
-                    //     stocksArr[1],
-                    //     stocksArr[2],
-                    // ];
-                    // setStocks(stocksSample);
                     setStocks(stocksArr);
                     setIsLoading(false);
                 })
@@ -117,7 +106,8 @@ function ChooseStock(props) {
     };
 
     const handleOptionSelect = (e) => {
-        const listId = e.target.getAttribute("listId");
+        // const listId = e.target.getAttribute("listId");
+        console.log("inside handle option select");
         if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
             setShowBox(true);
             setStockLoading(true);
@@ -141,6 +131,30 @@ function ChooseStock(props) {
     };
 
     const handleSubmit = (e) => {
+        console.log("inside handle submit", e.target[0].value);
+
+        const searchVal = e.target[0].value.trim().toUpperCase();
+        const similarStocks = [];
+        stocks.map((obj) => {
+            const symbolStr = obj.stock_symbol
+                .replace(/\s+/g, "")
+                .toUpperCase();
+            const nameStr = obj.stock_name.replace(/\s+/g, "").toUpperCase();
+            if (`${symbolStr}${nameStr}`.includes(searchVal)) {
+                similarStocks.push(obj);
+            }
+        });
+        if (similarStocks.length < 100) {
+            setSearchStocks(similarStocks);
+        } else {
+            setSearchStocks([
+                {
+                    stock_symbol: "SUBMIT MORE SPECIFIC SEARCH VALUE",
+                    stock_name: "",
+                },
+            ]);
+        }
+
         e.preventDefault();
         setShowBox(true);
         setStockLoading(true);
@@ -180,8 +194,13 @@ function ChooseStock(props) {
                         }
                     >
                         <datalist id="suggestions">
-                            {stocks.map((item, i) => {
-                                return (
+                            {searchStocks.map((item, i) => {
+                                return !searchStocks[0].stock_name ? (
+                                    <option
+                                        key={i}
+                                        data-list-id={i}
+                                    >{`${item.stock_symbol}`}</option>
+                                ) : (
                                     <option
                                         key={i}
                                         data-list-id={i}

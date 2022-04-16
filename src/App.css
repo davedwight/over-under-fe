@@ -278,6 +278,7 @@ input {
 
 .stock-name-display {
     font-weight: 200;
+    text-align: center;
 }
 
 .stock-price-display {
