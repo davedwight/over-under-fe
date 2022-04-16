@@ -10,7 +10,10 @@ function Share(props) {
     const { response, shareLinkParam, layoutTimes } = props;
 
     const [copied, setCopied] = useState(false);
-    const formatter = new Intl.NumberFormat("de-DE");
+    const formatter = new Intl.NumberFormat("de-DE", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    });
     let startPriceFormatted = formatter.format(response.start_price);
 
     const handleClick = () => {

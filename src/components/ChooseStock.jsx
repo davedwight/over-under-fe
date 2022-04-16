@@ -25,7 +25,10 @@ function ChooseStock(props) {
 
     const userId = parseInt(localStorage.getItem("user_id"));
 
-    const formatter = new Intl.NumberFormat("de-DE");
+    const formatter = new Intl.NumberFormat("de-DE", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    });
     let startPriceFormatted = formatter.format(response.start_price);
 
     useEffect(() => {
@@ -76,7 +79,9 @@ function ChooseStock(props) {
                     ...response,
                     stock_symbol: stockSymbol,
                     stock_name: stockName,
-                    start_price: parseFloat(values[0].data.c.toFixed(2)),
+                    start_price: parseFloat(
+                        parseFloat(values[0].data.c).toFixed(2)
+                    ),
                     user_id: userId,
                     // exchange: values[1].data.exchange,
                 });

@@ -83,7 +83,10 @@ function SecondaryVote(props) {
         }
     }, []);
 
-    const formatter = new Intl.NumberFormat("de-DE");
+    const formatter = new Intl.NumberFormat("de-DE", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    });
     let startPriceFormatted = formatter.format(response.start_price);
 
     const handleSubmit = () => {
@@ -98,6 +101,7 @@ function SecondaryVote(props) {
             .then((res) => {
                 setShareLinkParam(res.data.response_id);
                 setSubmitLoading(false);
+                setShowCountdown(false);
                 setPageIndex(pageIndex + 1);
             })
             .catch((err) => console.error("didn't work", err));

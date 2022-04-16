@@ -23,7 +23,10 @@ function SecondaryConfirmation(props) {
     const { response, setResponse, layoutTimes, setShowCountdown } = props;
     let navigate = useNavigate();
 
-    const formatter = new Intl.NumberFormat("de-DE");
+    const formatter = new Intl.NumberFormat("de-DE", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    });
     let startPriceFormatted = formatter.format(response.start_price);
 
     const handleClick = () => {

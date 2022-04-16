@@ -14,6 +14,8 @@ import refreshIcon from "../assets/refreshIcon.svg";
 import Spinner from "../assets/spinner.svg";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { formatPhoneNumber } from "react-phone-number-input";
 
 const drawerWidth = "100%";
 
@@ -68,6 +70,7 @@ export default function MyBetsDrawer(props) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState([]);
+    let navigate = useNavigate();
 
     let userId = parseInt(localStorage.getItem("user_id"));
 
@@ -92,6 +95,11 @@ export default function MyBetsDrawer(props) {
         getResponseData();
     };
 
+    const handleLogoClick = () => {
+        navigate(`/vote`);
+        window.location.reload();
+    };
+
     const getResponseData = () => {
         axiosWithAuth()
             .get(`/responses/user/${userId}`)
@@ -111,7 +119,12 @@ export default function MyBetsDrawer(props) {
             <AppBar className="app-bar" position="fixed" open={open}>
                 <Toolbar>
                     <header>
-                        <img className="logo" src={logo} alt="logo" />
+                        <img
+                            onClick={handleLogoClick}
+                            className="logo"
+                            src={logo}
+                            alt="logo"
+                        />
                         {userIdState ? (
                             <IconButton
                                 className="icon-button"
@@ -194,18 +207,39 @@ export default function MyBetsDrawer(props) {
                                     const formattedDate = moment(
                                         row.expiration_time
                                     ).format("DD MMM YYYY, h:mm a");
+
+                                    const formatter = new Intl.NumberFormat(
+                                        "de-DE",
+                                        {
+                                            maximumFractionDigits: 2,
+                                            minimumFractionDigits: 2,
+                                        }
+                                    );
+                                    const startPriceFormatted =
+                                        formatter.format(row.start_price);
+
+                                    let endPriceFormatted = row.end_price;
+                                    row.end_price != "PENDING" &&
+                                        (endPriceFormatted = formatter.format(
+                                            row.end_price
+                                        ));
+
+                                    const formattedOpponentNum =
+                                        row.opponent === "NONE"
+                                            ? "NONE"
+                                            : formatPhoneNumber(row.opponent);
                                     return (
                                         <tr>
                                             <td className="td-text">
                                                 {row.stock_symbol}
                                             </td>
                                             <td className="td-num">
-                                                ${row.start_price}
+                                                ${startPriceFormatted}
                                             </td>
                                             <td className="td-num">
-                                                {row.end_price != "PENDING"
-                                                    ? `$${row.end_price}`
-                                                    : row.end_price}
+                                                {row.end_price === "PENDING"
+                                                    ? endPriceFormatted
+                                                    : `$${endPriceFormatted}`}
                                             </td>
                                             <td className="td-text">{`${row.response_length} mins`}</td>
                                             <td className="td-text">
@@ -215,10 +249,13 @@ export default function MyBetsDrawer(props) {
                                                 {formattedDate}
                                             </td>
                                             <td className="td-text">
-                                                {row.opponent}
+                                                {formattedOpponentNum}
                                             </td>
                                             <td className="td-text">
-                                                {row.result}
+                                                {row.opponent === "NONE" &&
+                                                row.result != "PENDING"
+                                                    ? "NONE"
+                                                    : row.result}
                                             </td>
                                         </tr>
                                     );
