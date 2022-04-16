@@ -39,12 +39,21 @@ function ChooseStock(props) {
                 )
                 .then((res) => {
                     const stocksArr = [];
+                    const stockTypes = [];
+                    const acceptedStockTypes = ["Common Stock", "PUBLIC"];
                     res.data.map((item) => {
-                        stocksArr.push({
-                            stock_symbol: item.symbol,
-                            stock_name: item.description,
-                        });
+                        if (!stockTypes.includes(item.type)) {
+                            stockTypes.push(item.type);
+                        }
+                        if (acceptedStockTypes.includes(item.type)) {
+                            stocksArr.push({
+                                stock_symbol: item.symbol,
+                                stock_name: item.description,
+                            });
+                        }
                     });
+                    console.log("stock types", stockTypes);
+                    console.log(stocksArr);
                     console.log("stocksArr length", stocksArr.length);
                     // const stocksSample = [
                     //     stocksArr[0],
