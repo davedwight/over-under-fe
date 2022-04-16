@@ -723,7 +723,7 @@ tr {
 
     .number {
         margin-right: 5px;
-        font-size: 6rem;
+        font-size: 8rem;
     }
 
     h3 {
@@ -745,7 +745,7 @@ tr {
     }
 
     .card {
-        width: 90%;
+        width: 98%;
     }
 
     .response-length-container {
