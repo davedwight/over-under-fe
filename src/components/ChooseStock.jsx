@@ -23,6 +23,7 @@ function ChooseStock(props) {
     const [showBox, setShowBox] = useState(false);
     const [notFound, setNotFound] = useState(false);
     const [searchStocks, setSearchStocks] = useState([]);
+    const [showCustomOption, setShowCustomOption] = useState(false);
 
     const userId = parseInt(localStorage.getItem("user_id"));
 
@@ -107,16 +108,18 @@ function ChooseStock(props) {
 
     const handleOptionSelect = (e) => {
         // const listId = e.target.getAttribute("listId");
-        console.log("inside handle option select");
+        console.log("inside handle option select", e);
         if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
-            setShowBox(true);
-            setStockLoading(true);
+            // setShowBox(true);
+            // setStockLoading(true);
             const stockSymbol = e.target.value.split(" ")[0];
-            const stockObj = stocks.find(
-                (obj) => obj.stock_symbol === stockSymbol
-            );
-            const stockName = stockObj.stock_name;
-            getStockData(stockSymbol, stockName);
+            handleSubmit(null, stockSymbol);
+            // setSearchOptions(stockSymbol);
+            // const stockObj = stocks.find(
+            //     (obj) => obj.stock_symbol === stockSymbol
+            // );
+            // const stockName = stockObj.stock_name;
+            // getStockData(stockSymbol, stockName);
         }
     };
 
@@ -126,14 +129,17 @@ function ChooseStock(props) {
         setStockLoading(true);
         const rand = Math.floor(Math.random() * stocks.length);
         const stockObj = stocks[rand];
+        setSearchOptions(stockObj.stock_symbol);
         getStockData(stockObj.stock_symbol, stockObj.stock_name);
-        setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol.toUpperCase() });
+        setFormValues({
+            ...formValues,
+            stockSymbol: stockObj.stock_symbol.toUpperCase(),
+        });
     };
 
-    const handleSubmit = (e) => {
-        console.log("inside handle submit", e.target[0].value);
-
-        const searchVal = e.target[0].value.trim().toUpperCase();
+    const setSearchOptions = (stockName) => {
+        console.log("inside set search options");
+        const searchVal = stockName.toUpperCase();
         const similarStocks = [];
         stocks.map((obj) => {
             const symbolStr = obj.stock_symbol
@@ -144,30 +150,34 @@ function ChooseStock(props) {
                 similarStocks.push(obj);
             }
         });
+        console.log("similar stocks", similarStocks);
         if (similarStocks.length < 100) {
+            setShowCustomOption(false);
             setSearchStocks(similarStocks);
         } else {
-            setSearchStocks([
-                {
-                    stock_symbol: "SUBMIT MORE SPECIFIC SEARCH VALUE",
-                    stock_name: "",
-                },
-            ]);
+            setShowCustomOption(true);
+            setSearchStocks([]);
         }
+    };
 
-        e.preventDefault();
+    const handleSubmit = (e, stockSymbol) => {
+        console.log("inside handle submit", e, stockSymbol);
+        e && e.preventDefault();
+        const searchVal = e
+            ? e.target[0].value.trim().toUpperCase()
+            : stockSymbol.toUpperCase();
+        console.log("search val inside handle submit", searchVal);
+        setSearchOptions(searchVal);
         setShowBox(true);
         setStockLoading(true);
-        const symbolFormatted = formValues.stockSymbol.toUpperCase();
-        const stockObj = stocks.find(
-            (obj) => obj.stock_symbol === symbolFormatted
-        );
+        const stockObj = stocks.find((obj) => obj.stock_symbol === searchVal);
+        console.log("stock obj inside handle submit", stockObj);
         if (!stockObj) {
             setNotFound(true);
             setStockLoading(false);
         } else {
             const stockName = stockObj.stock_name;
-            getStockData(symbolFormatted, stockName);
+            getStockData(searchVal, stockName);
         }
     };
 
@@ -194,19 +204,20 @@ function ChooseStock(props) {
                         }
                     >
                         <datalist id="suggestions">
-                            {searchStocks.map((item, i) => {
-                                return !searchStocks[0].stock_name ? (
-                                    <option
-                                        key={i}
-                                        data-list-id={i}
-                                    >{`${item.stock_symbol}`}</option>
-                                ) : (
-                                    <option
-                                        key={i}
-                                        data-list-id={i}
-                                    >{`${item.stock_symbol} (${item.stock_name})`}</option>
-                                );
-                            })}
+                            {showCustomOption ? (
+                                <option>
+                                    SUBMIT MORE SPECIFIC SEARCH VALUE
+                                </option>
+                            ) : (
+                                searchStocks.map((item, i) => {
+                                    return (
+                                        <option
+                                            key={i}
+                                            data-list-id={i}
+                                        >{`${item.stock_symbol} (${item.stock_name})`}</option>
+                                    );
+                                })
+                            )}
                         </datalist>
                         <form onSubmit={handleSubmit}>
                             <div class="input-icon">
@@ -258,7 +269,7 @@ function ChooseStock(props) {
                         ) : (
                             <div className="stock-display-container">
                                 <table className="choose-stock-table">
-                                    <tr>
+                                    <tr className="stock-name">
                                         <td>{response.stock_name}</td>
                                     </tr>
                                     <tr>

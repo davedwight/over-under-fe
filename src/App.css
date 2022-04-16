@@ -276,6 +276,10 @@ input {
     width: 100%;
 }
 
+.choose-stock-table {
+    width: 100%;
+}
+
 .stock-name-display {
     font-weight: 200;
     text-align: center;
@@ -509,10 +513,6 @@ tr {
     font-weight: 200;
 }
 
-.choose-stock-table {
-    width: 100%;
-}
-
 .right {
     text-align: right;
 }
@@ -734,6 +734,10 @@ tr {
         font-size: 1rem;
     }
 
+    .random-button {
+        font-size: 1.2rem;
+    }
+
     .lower-wrapper {
         flex-direction: column-reverse;
     }
@@ -775,7 +779,7 @@ tr {
     }
 
     .stock-title {
-        font-size: 2.1rem;
+        font-size: 1.6rem;
     }
 
     .copied {
@@ -808,5 +812,13 @@ tr {
         width: 12.5%;
         line-height: 1rem;
         font-size: 0.8rem;
+    }
+
+    .right {
+        line-height: 1rem;
+    }
+
+    .stock-name {
+        line-height: 1rem;
     }
 }
