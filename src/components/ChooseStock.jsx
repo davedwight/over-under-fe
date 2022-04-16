@@ -63,7 +63,7 @@ function ChooseStock(props) {
         } else {
             setFormValues({
                 ...formValues,
-                stockSymbol: response.stock_symbol,
+                stockSymbol: response.stock_symbol.toUpperCase(),
             });
             setShowBox(true);
         }
@@ -101,7 +101,7 @@ function ChooseStock(props) {
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        const symbol = value.split(" ")[0];
+        const symbol = value.split(" ")[0].toUpperCase();
         setFormValues({ ...formValues, [name]: symbol });
     };
 
@@ -127,7 +127,7 @@ function ChooseStock(props) {
         const rand = Math.floor(Math.random() * stocks.length);
         const stockObj = stocks[rand];
         getStockData(stockObj.stock_symbol, stockObj.stock_name);
-        setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol });
+        setFormValues({ ...formValues, stockSymbol: stockObj.stock_symbol.toUpperCase() });
     };
 
     const handleSubmit = (e) => {
