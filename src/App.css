@@ -217,7 +217,7 @@ form {
 }
 
 .selected {
-    color: white;
+    color: white !important;
     background-color: #0a0d1e;
 }
 
