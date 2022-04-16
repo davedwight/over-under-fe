@@ -45,13 +45,14 @@ function ChooseStock(props) {
                             stock_name: item.description,
                         });
                     });
-                    const stocksSample = [
-                        stocksArr[0],
-                        stocksArr[1],
-                        stocksArr[2],
-                    ];
-                    setStocks(stocksSample);
-                    // setStocks(stocksArr);
+                    console.log("stocksArr length", stocksArr.length);
+                    // const stocksSample = [
+                    //     stocksArr[0],
+                    //     stocksArr[1],
+                    //     stocksArr[2],
+                    // ];
+                    // setStocks(stocksSample);
+                    setStocks(stocksArr);
                     setIsLoading(false);
                 })
                 .catch((error) => {
