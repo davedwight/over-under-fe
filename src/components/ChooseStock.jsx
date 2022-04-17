@@ -107,19 +107,9 @@ function ChooseStock(props) {
     };
 
     const handleOptionSelect = (e) => {
-        // const listId = e.target.getAttribute("listId");
-        console.log("inside handle option select", e);
         if (String(e.nativeEvent).split(" ")[1][0] === "E" && e.target.value) {
-            // setShowBox(true);
-            // setStockLoading(true);
             const stockSymbol = e.target.value.split(" ")[0];
             handleSubmit(null, stockSymbol);
-            // setSearchOptions(stockSymbol);
-            // const stockObj = stocks.find(
-            //     (obj) => obj.stock_symbol === stockSymbol
-            // );
-            // const stockName = stockObj.stock_name;
-            // getStockData(stockSymbol, stockName);
         }
     };
 
@@ -138,7 +128,6 @@ function ChooseStock(props) {
     };
 
     const setSearchOptions = (stockName) => {
-        console.log("inside set search options");
         const searchVal = stockName.toUpperCase();
         const similarStocks = [];
         stocks.map((obj) => {
@@ -150,7 +139,6 @@ function ChooseStock(props) {
                 similarStocks.push(obj);
             }
         });
-        console.log("similar stocks", similarStocks);
         if (similarStocks.length < 100) {
             setShowCustomOption(false);
             setSearchStocks(similarStocks);
@@ -161,7 +149,6 @@ function ChooseStock(props) {
     };
 
     const handleEnter = (e) => {
-        console.log("inside handleEnter", e);
         const stockVal = formValues.stockSymbol.toUpperCase();
         if (e.key === "Enter") {
             handleSubmit(null, stockVal);
@@ -171,19 +158,16 @@ function ChooseStock(props) {
     const handleFormSubmit = (e) => {
         e.preventDefault();
     };
-    
+
     const handleSubmit = (e, stockSymbol) => {
-        console.log("inside handle submit", e, stockSymbol);
         e && e.preventDefault();
         const searchVal = e
             ? e.target[0].value.trim().toUpperCase()
             : stockSymbol.toUpperCase();
-        console.log("search val inside handle submit", searchVal);
         setSearchOptions(searchVal);
         setShowBox(true);
         setStockLoading(true);
         const stockObj = stocks.find((obj) => obj.stock_symbol === searchVal);
-        console.log("stock obj inside handle submit", stockObj);
         if (!stockObj) {
             setNotFound(true);
             setStockLoading(false);
@@ -240,7 +224,7 @@ function ChooseStock(props) {
                                     value={`${formValues.stockSymbol}`}
                                     onChange={handleFormChange}
                                     onInput={handleOptionSelect}
-                                    onKeyPress={handleEnter}
+                                    onKeyDown={handleEnter}
                                     autoComplete="on"
                                     list="suggestions"
                                 />
