@@ -160,6 +160,18 @@ function ChooseStock(props) {
         }
     };
 
+    const handleEnter = (e) => {
+        console.log("inside handleEnter", e);
+        const stockVal = formValues.stockSymbol.toUpperCase();
+        if (e.key === "Enter") {
+            handleSubmit(null, stockVal);
+        }
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+    };
+    
     const handleSubmit = (e, stockSymbol) => {
         console.log("inside handle submit", e, stockSymbol);
         e && e.preventDefault();
@@ -219,7 +231,7 @@ function ChooseStock(props) {
                                 })
                             )}
                         </datalist>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleFormSubmit}>
                             <div class="input-icon">
                                 <input
                                     // type="search"
@@ -228,6 +240,7 @@ function ChooseStock(props) {
                                     value={`${formValues.stockSymbol}`}
                                     onChange={handleFormChange}
                                     onInput={handleOptionSelect}
+                                    onKeyPress={handleEnter}
                                     autoComplete="on"
                                     list="suggestions"
                                 />
