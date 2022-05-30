@@ -171,7 +171,6 @@ function ChooseStock(props) {
         const stockObjName = stocks.find(
             (obj) => obj.stock_name.split(" ")[0].toUpperCase() === searchVal
         );
-        console.log("stock object", stockObj);
         if (!stockObj && stockObjName) {
             const stockSymbol = stockObjName.stock_symbol;
             getStockData(stockSymbol, searchVal);

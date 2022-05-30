@@ -9,6 +9,9 @@ import MyBetsDrawer from "./components/MyBetsDrawer";
 function App() {
     const initialUserId = localStorage.getItem("user_id");
     const [userIdState, setUserIdState] = useState(initialUserId);
+
+    screen.orientation.lock("portrait-primary");
+
     return (
         <div className="App">
             <Routes>

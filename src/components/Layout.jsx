@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import setAllLayoutTimes from "../utils/setAllLayoutTimes";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import axios from "axios";
 
 const initialLayoutTimes = {
     expiration_mins: null,
@@ -43,6 +44,7 @@ function Layout(props) {
     const [layoutTimes, setLayoutTimes] = useState(initialLayoutTimes);
     const [response, setResponse] = useState(initialResponseData);
     const [voteNotFound, setVoteNotFound] = useState(false);
+    const [marketOpen, setMarketOpen] = useState(true);
     let navigate = useNavigate();
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
@@ -50,45 +52,29 @@ function Layout(props) {
     const intPrimaryResponseId = parseInt(primary_response_id);
 
     useEffect(() => {
-        if ((!token || !userId) && primary_response_id) {
-            localStorage.clear();
-            setUserIdState(null);
-            navigate(`/login/vote/${intPrimaryResponseId}`);
-        } else if (!token || !userId) {
-            localStorage.clear();
-            setUserIdState(null);
-            navigate("/login");
-        } else {
-            axiosWithAuth()
-                .get(`/users/${userId}`)
-                .then((res) => {
-                    if (res.status === 200 && primary_response_id) {
-                        console.log(
-                            `User ${res.data.user_id} successfully verified`
-                        );
-                        navigate(`/vote/${intPrimaryResponseId}`);
-                    } else if (res.status === 200) {
-                        console.log(
-                            `User ${res.data.user_id} successfully verified`
-                        );
-                        navigate("/vote");
-                    } else {
-                        console.log(
-                            `Error code: ${res.status} \n
-                            Error message: ${res.data.message}\n
-                            Please login`
-                        );
-                        localStorage.clear();
-                        setUserIdState(null);
-                        navigate("/login");
-                    }
-                })
-                .catch((err) => {
-                    console.error("couldn't verify token", err);
+        axios
+            .get(
+                `https://financialmodelingprep.com/api/v3/is-the-market-open?apikey=dc42d2fc303bf94114368ba30a7c05c6`
+            )
+            .then((res) => {
+                const marketOpen = res.data.isTheStockMarketOpen;
+                if (!marketOpen) {
+                    setMarketOpen(false);
+                } else if ((!token || !userId) && primary_response_id) {
                     localStorage.clear();
+                    setUserIdState(null);
+                    navigate(`/login/vote/${intPrimaryResponseId}`);
+                } else if (!token || !userId) {
+                    localStorage.clear();
+                    setUserIdState(null);
                     navigate("/login");
-                });
-        }
+                } else {
+                    handleLogin();
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }, []);
 
     useEffect(() => {
@@ -111,6 +97,38 @@ function Layout(props) {
             return () => clearInterval(interval);
         }
     }, [response]);
+
+    const handleLogin = () => {
+        axiosWithAuth()
+            .get(`/users/${userId}`)
+            .then((res) => {
+                if (res.status === 200 && primary_response_id) {
+                    console.log(
+                        `User ${res.data.user_id} successfully verified`
+                    );
+                    navigate(`/vote/${intPrimaryResponseId}`);
+                } else if (res.status === 200) {
+                    console.log(
+                        `User ${res.data.user_id} successfully verified`
+                    );
+                    navigate("/vote");
+                } else {
+                    console.log(
+                        `Error code: ${res.status} \n
+                    Error message: ${res.data.message}\n
+                    Please login`
+                    );
+                    localStorage.clear();
+                    setUserIdState(null);
+                    navigate("/login");
+                }
+            })
+            .catch((err) => {
+                console.error("couldn't verify token", err);
+                localStorage.clear();
+                navigate("/login");
+            });
+    };
 
     return (
         <div className="layout">
@@ -155,7 +173,14 @@ function Layout(props) {
                     </h3>
                 )}
             </div>
-            {voteNotFound ? (
+            {!marketOpen ? (
+                <div className="not-found">
+                    <h3>
+                        MARKET CLOSED. PLEASE REVISIT DURING NORMAL MARKET
+                        HOURS.
+                    </h3>
+                </div>
+            ) : voteNotFound ? (
                 <div className="not-found">
                     <h3>VOTE INFORMATION NOT FOUND</h3>
                 </div>
