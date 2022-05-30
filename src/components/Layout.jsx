@@ -30,11 +30,11 @@ const initialResponseData = {
 
 const responseTimes = {
     1: 1,
-    5: 5,
-    10: 5,
-    15: 5,
-    30: 10,
-    60: 15,
+    5: 2,
+    10: 2,
+    15: 2,
+    30: 2,
+    60: 2,
 };
 
 function Layout(props) {

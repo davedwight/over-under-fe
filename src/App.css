@@ -312,7 +312,8 @@ input {
     text-align: left;
 }
 
-.share-button {
+.share-button,
+.new-bet-button {
     width: 100%;
     text-align: center;
     color: #fff;
@@ -320,6 +321,17 @@ input {
     font-weight: 800;
     font-size: 2.5rem;
     height: 60px;
+    border: 1px solid black;
+}
+
+.new-bet-button {
+    margin-top: 5px;
+}
+
+.share-button:hover,
+.new-bet-button:hover {
+    background-color: #fff;
+    color: #000;
 }
 
 .arrow {

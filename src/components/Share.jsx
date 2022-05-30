@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const emojis = {
@@ -8,7 +9,7 @@ const emojis = {
 
 function Share(props) {
     const { response, shareLinkParam, layoutTimes } = props;
-
+    let navigate = useNavigate();
     const [copied, setCopied] = useState(false);
     const formatter = new Intl.NumberFormat("de-DE", {
         maximumFractionDigits: 2,
@@ -33,6 +34,11 @@ function Share(props) {
                 console.log(res);
             })
             .catch((err) => console.error);
+    };
+
+    const handleNewBet = () => {
+        navigate(`/vote`);
+        window.location.reload();
     };
 
     const handleClipboardClick = () => {
@@ -109,6 +115,9 @@ function Share(props) {
                         SHARE
                     </button>
                 )}
+                <button onClick={handleNewBet} className="new-bet-button">
+                    NEW BET
+                </button>
                 <h3 className={copied ? "copied" : "copied hide"}>
                     INFO COPIED TO CLIPBOARD
                 </h3>
